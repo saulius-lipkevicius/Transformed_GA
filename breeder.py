@@ -1,67 +1,63 @@
 from __future__ import division
 from random import randint, choice
+import random, decimal
 from numpy import mean
 import numpy as np
-import pandas as pd
-#ikisti iverti
+import pandas as pd #reading csv
 
-aptLength = 40 # automatizuoti?
 
-#made by sid for gluedtogether.py
-def readDatabase(readfile):
-    databaseSize = len(aptamers)
+#Read csv sheet, outputs already the best
+def readCSV(readfile):
+    df = pd.read_csv(readfile)
+    df.sort_values(by=['Fitness'], inplace=True, ascending=False, ignore_index=True)
+    df = pd.DataFrame(df)
+    df = df.iloc[:int(len(df)*0.05),:]
+
+    return df
+
+
+# parents are in the format of ['ACGTCGT', fitness score]
+def crossover(parent1, parent2): #prideti iteracija ir generacija
+    crossPosition = randint(1,38) # ar galime taikyti distribucija ar kita randomizacija
+    initialParent = randint(0,1)
+
+    if initialParent == 0:
+        childSeq = parent1[:crossPosition] + parent2[crossPosition:]
+    else:
+        childSeq = parent2[:crossPosition] + parent1[crossPosition:]
+
+    return str(childSeq)
+
+
+def breed(aptamers): #prideti kad geresni parent poruotusi dazniau
+    top_parents = aptamers.iloc[:,0]
+    for child in range(0,190): # 1 - kiek paliekame, lyginti su getBest funkcija
+        newRow = {"Aptamer": crossover(choice(top_parents), choice(top_parents)), "Fitness": random.randint(9000, 10000)/10000}
+        aptamers = aptamers.append(newRow, ignore_index=True)
     return aptamers
 
 
-def generateAptamer():
-     return aptamer
+#for each base and not once
+def mutate(aptamers, mutation_probability = 0.1): #mutacijos
+  
+    for row in range(0,len(aptamers) - 1):
+        print(row)
+        aptamer = list(aptamers.iloc[row,0])
+        for i in range(0,39):
+            if random.random() <= mutation_probability:
+                notList = ['A', 'G', 'C', 'T']
+                notList.remove(aptamer[i])
+                aptamer[i] = random.choice(notList)
+                print("located at: ", row, i)   
+            aptamers.iloc[row,0] = "".join(aptamer)
+    return aptamers
 
 
-def getFitness(sequences):
-    return fitnessScore
+data = readCSV('AptamersList.csv')
+data = breed(data)
+print(len(data))
+#data = mutate(data.iloc[0,0])
+print(data)
+print(mutate(data))
+#print(data)
 
-
-def getBest(aptamerList, cutOff):
-    top_aptamers = []
-    top_aptamers.append(aptamerList[:int(len(aptamerList) * cutOff)])
-
-    return  top_aptamers
-
-
-def genPool(pool_size):
-     return aptamerList
-
-
-# parent1 and parent 2 are in the format [aptamer_1, 'asdasdasdasdasda', 47]
-def crossover(parent1, parent2, iteration, generationNumber):
-    crossPosition = randint(1,2) # ar galime taikyti distribucija ar kita randomizacija
-    if crossPosition%2 == 0:
-        childseq = parent1[1][:crossPosition] + parent2[1][crossPosition:]
-    else:
-        childseq = parent2[1][:crossPosition] + parent1[1][crossPosition:]
-
-    child = ["gen_" + str(generationNumber) + "_offspring_" + str(iteration), childseq, getFitness(childseq)]
-    return child
-
-
-def breed(aptamers, generationNumber, top_cutoff=0.10):
-    top_aptamers = []
-    top_parents = getBest(aptamers)
-
-    for child in range(int(databaseSize * 0.98)): # koki procenta norime numesti
-        top_aptamers.append(crossover(choice(top_parents), choice(top_parents), child, generationNumber))
-
-    return top_aptamers
-
-
-def mutate(aptamer, mutation_probability = 0.02): #mutacijos
-    input_sequence = aptamer[1]
-    if random.random() <= mutation_probability:
-        site = random.randint(0, aptLength - 2)
-        listedSeq = list(input_sequence)
-        notList = ['A', 'G', 'C', 'T']
-
-        notList[site] == 'A':
-        notList[site] = random.choice(notList.remove(notList[site]))
-        
-        return [aptamer[0], "".join(notList), ab.getFitness("".join(notList))] 
