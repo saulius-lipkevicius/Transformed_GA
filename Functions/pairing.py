@@ -22,13 +22,34 @@ def pairLabel(df):
     return dataset[['Sequence1', 'Sequence2', 'Label']]
 
 
+def balanceData(dataset):
+    counts = dataset['Label'].value_counts()
+
+    if counts.loc[0] >= counts.loc[1]:
+        change = int((counts.loc[0] - counts.loc[1])/2)
+        value = 0
+    else:
+        change = int((counts.loc[1] - counts.loc[0])/2)
+        value = 1
+
+    zeros = dataset[(dataset['Label'] == value)]
+    zerosIndexes = zeros.sample(change).index
+    zeros.loc[zerosIndexes,'Label'] = int(abs(value - 1))
+    
+    dataset.update(zeros)
+    dataset['Label'] = dataset['Label'].astype(int)
+
+    return dataset
+
+
 def main():
     path = './datasets/'
     dataPath = './datasets/scored_sequences.csv'
     df = pd.read_csv(dataPath)
     data = pairLabel(df)
-
-    train, test, val = np.split(data, [int(.6*len(data)), int(.8*len(data))]) #60% training, 20% validating, 20% testing
+    dataset = balanceData(data)
+    
+    train, test, val = np.split(data, [int(.8*len(data)), int(.9*len(data))]) #60% training, 20% validating, 20% testing
 
     print("Migrating datasets to CSV to {}".format(path))
     data.to_csv('./datasets/full_comparison.csv', encoding='utf-8', index=False)

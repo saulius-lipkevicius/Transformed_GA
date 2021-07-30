@@ -1,3 +1,3 @@
-# GA_Transformer
+# Genetic algorithm employing transformers to generate new efficient aptamers
 
-Genetic Algorithm that employs Transformer
+Functions - contains functions to 
