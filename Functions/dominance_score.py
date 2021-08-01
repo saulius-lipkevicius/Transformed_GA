@@ -1,25 +1,27 @@
 import pandas as pd
 import numpy as np
+import os
 
 def dominanceScore(dataset, initialAptamers):
     power = {}
 
     #initial aptamers, pataisyti kad imtu is kitos funkcijos
     for i in range(0,len(initialAptamers)):
-        power.update({aptList.loc[i,'Sequence']: 0})
+        power.update({initialAptamers.loc[i,'Sequence']: 0})
 
     #dont have to normalize the score
-    for t in range(0, len(df)):
+    for t in range(0, len(dataset)):
         if dataset.loc[t,'Label'] == 1:
             power[dataset.loc[t,'Sequence1']] += 1/len(initialAptamers)
         else:
             power[dataset.loc[t,'Sequence2']] += 1/len(initialAptamers)
 
+    n = int(len(power) * 0.10)  # floor float result, as you must use an integer
+    power = sorted(power.items(), key=lambda x:x[1], reverse=True)[:n]
+
     return power
-#print(sorted(power.items(), key=lambda x:x[1], reverse=True) )
 
-if __name__ == "__main__":
-
+def main():
     dataPath = './datasets/full_comparison.csv'
     df = pd.read_csv(dataPath)
 
@@ -27,5 +29,25 @@ if __name__ == "__main__":
     aptList = pd.read_csv(aptamerPath)
 
     power = dominanceScore(df, aptList)
-    tocsv = pd.DataFrame(power.items())
-    print(tocsv)
+
+    
+
+    preprocessedToGA = pd.DataFrame(power)
+    preprocessedToGA.columns = ['Sequence', 'Power'] 
+    preprocessedToGA['Power'] = preprocessedToGA['Power'].round(decimals=3)
+
+    dirName = './datasets/GA_iterations'
+    try:
+        # Create target Directory
+        os.mkdir(dirName)
+        print("Directory " , dirName ,  " Created ") 
+    except FileExistsError:
+        print("Directory " , dirName ,  " already exists")
+
+
+    location = './datasets/GA_iterations/top100_{}'.format(1)
+    preprocessedToGA.to_csv(location, encoding='utf-8', index=False)
+
+if __name__=="__main__":
+    main()
+
