@@ -49,7 +49,7 @@ def main():
     data = pairLabel(df)
     dataset = balanceData(data)
     
-    train, test, val = np.split(data, [int(.8*len(data)), int(.9*len(data))]) #60% training, 20% validating, 20% testing
+    train, test, val = np.split(data, [int(.8*len(data)), int(.9*len(data))]) #80% training, 10% validating, 10% testing
 
     print("Migrating datasets to CSV to {}".format(path))
     data.to_csv('./datasets/full_comparison.csv', encoding='utf-8', index=False)
