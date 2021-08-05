@@ -9,7 +9,7 @@
 - [ ] Paieskoti ar crossoveriui skilimas buna visiskai random, ar tarkim dazniau vidury?
 - [ ] Pasalinti harcodintus parametrus
 - [ ] Kaip reiktu fine-tuninti modeli
-
+- [ ] Leisti pairing python scriptui priimti dataset kaip inputa (-d)
 
 
 <!-- PROJECT SHIELDS -->

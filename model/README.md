@@ -6,18 +6,11 @@
     <img src="./../images/logo.png" alt="Logo" width="160" height="160">
   </a>
 
-  <h3 align="center">Transformer BERT </h3>
+  <h3 align="center">Fine-Tuning Transformer alBERT </h3>
 
   <p align="center">
-    <a href="https://github.com/"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/">View Demo</a>
-    ·
-    <a href="https://github.com/">Report Bug</a>
-    ·
-    <a href="https://github.com/">Request Feature</a>
-  </p>
+    <a href="https://github.com/"><strong>Explore the wiki »</strong></a>
+    
 </p>
 
 
@@ -27,7 +20,7 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#about-the-bert">About The BERT</a>
+      <a href="#about-bert">About BERT</a>
       <ul>
         <li><a href="#model-advantages">Model advantages</a></li>
       </ul>
@@ -36,7 +29,7 @@
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#colab-setup">Colab Setup</a></li>
-        <li><a href="#preprocess-and-data-locate">Preprocess and Data Locate</a></li>
+        <li><a href="#preprocessing-and-data-locating">Preprocessing and Data Locating</a></li>
       </ul>
     </li>
     <li><a href="#tokenization-&-input-formatting">Tokenization & input Formatting</a>
@@ -53,7 +46,7 @@
     </li>
     <li><a href="#usage">Usage</a>
     </li>
-    <li><a href="#model-performance">Model Performance</a>
+    <li><a href="#model-comparison">Model Comparison</a>
     </li>
     <li><a href="#further-improvements">Further Improvements</a>
     </li>
@@ -68,62 +61,60 @@
 </details>
 
 
-Model Performance
-Further improvements
-2 Appendix
 <!-- ABOUT THE PROJECT -->
-## About The BERT
+## About BERT
 ----
-2018 was a breakthrough year for NLP, multiple new models like OpenAI's Open-GTP, Google's BERT allowed researchers to fine-tune existing models to produce state-of-art performance with minimal effort.
+2018 was a breakthrough year for NLP, multiple new models like OpenAI's Open-GTP, Google's BERT allowed researchers to fine-tune existing models to produce state-of-art performance with minimal effort. Almost instatly LSTM was largely replaced by BERT (Bidirectional Encoder Representations from Transformers) was released in late 2018, initialy model was employed to Natural Language Processing (NLP), nowadays it finds new applications in variety of fields: machine translation, document generation, biological sequence analysis, video understanding and etc. 
 
-BERT (Bidirectional Encoder Representations from Transformers) was released in late 2018, initialy model was employed to Natural Language Processing (NLP). It is used to extract high quality language features, in our case aptamer sequences. (prideti apie galimybes klasifikuoti, sentiment analysis, ir t.t.)
-In this project, we will use BERT to train a sequence classifier, more specifically, we will take a dataset with sequences comparison (entropy score) to fine-tune a model to be able to compare random sequences entropy. (Prideti kodel sekos gali buti laikomos kalbine israiska)
-
-It differs from base BERT model by one untrained layer of neurons on the end and then we train. Many other IGEM teams have tried to apply longer established deep learning methods, for instance CNN, LSTM and so on. Lets consider why transformers have an edge over former models.
+In this project, we will be using BERT modification a Lite BERT (alBERT) that incorporated parameter-reduction techniques to avoid memory limitations of available software, hence has multiple times less parameters to learn and trains 1.7x faster also archieves slightly worse performance. Multiple IGEM teams have tried to apply well-established deep learning methods like CNN, LSTM to predict some features of biological sequences, however those architectures have gradient flaws that especially reveal itself in long sequences. Lets consider why transformers have an edge over former models.
 
 ### Model advantages
+---
 * **Quick Development**
-
-  - To fine-tune BERT model on specific sequential data task we don't need to train original BERT model or any other from scratch (GPU expensive and time) because bottom layers are already trained only top classifying layers. (patikslinti)
+  - Compared to LSTM, BERT has a property of transfer learning, that means you don't have to train model lower layers from scratch, just to apply *head-layer* that suits your task, to get state-of-art results. 
 
 * **Less Data**
-  - Top deep learning models have millions of parameters to train, therefore model from scratch requires immense size datasets, a lot of time, and hands to create dataset.
+  - Best performing deep learning models have millions of parameters to train, therefore model from scratch requires immense size datasets, a lot of time, and hands to create dataset.
   
 * **Better Results**
-    - It was shown that simple fine-tuning, by adding one layer on the top of BERT, can archieve state-of-art results with minimal task-specific adjustments.
+    - It was shown that simple fine-tuning, by adding one layer on the top of BERT, can archieve state-of-art results with minimal task-specific adjustments and it does not suffer from vanishing/exploding gradient (RNN ilness). As a consequence BERT can handle long sequences.
 
+* **Completely Exhaust GPU resources**
+    - RNN, LSTM were hardly parallelizable because of recurrent-like architecture, to avoid issue BERT employed the new [attention link] methodology that lets BERT to fully parallelize computations.
 
 ## Getting Started 
 ----
 ### Colab Setup
-Google Colabatory offers free GPUs which is perfect to train large neural networks like BERTs. To add GPU select on menu:
+Google Colaboratory offers free GPUs which is perfect to train large neural networks like alBERTs. To add GPU select on menu:
 
 `Edit -->  Notebook Settings --> Hardware accelerator --> (GPU)`
 
-This Framework has some drawbacks if model training takes long time, hence we used Google Colabatory Pro to speed up the process.
+This Framework has some time and resourses drawbacks if training dataset is huge or *large* alBERT architecture is chosen, hence we used Google Colaboratory Pro to speed up the process.
 
 
-### Preprocess and Locate Data
-Model input must follow standard norms - (sequence1, sequence2, label). In case you have sequences from **M.A.W.S** you have to run it through *Python* script *pairing.py*
+### Preprocessing and Data Locating
+Model input must follow standard norms - **(Sequence1, Sequence2, Label)**. In case you have list of sequences from **M.A.W.S** you have to run it through *Python* script *pairing.py* to generate labeled dataframe for training.
 
-* Pairing aptamers to fit it into *BERT*
+* Pairing aptamers to fit it into *alBERT*
   ```sh
-  python pairing.py -d yourCSVsheetWithAptamers
+  python pairing.py -d aptamerListCSV
   ```
-
-  PRIDETI SNAPSHOTA dataframe
+* Output format
+<p align="center">
+    <img src="./../images/dataframe.png" alt="dataframe" width="360" height="160">
+</a>
 
 
 ### Dependencies
 
-To use a pre-trained transformer models *HuggingFace* provides API to quickly download and use those on a give dataset. API contains thousands of pretrained models to perform many tasks, however in our case we employed it for classification. (https://pypi.org/project/transformers) it gives *pytorch* interface for working with *BERT*. (kodel pasirinkome pytorch). It includes variety of models, also includes and pre-build modifacionts of these models suited for variety of tasks, for instance, we will use `BertForSequenceClassification`.
+To use a pre-trained transformer *HuggingFace* :hug: provides API to quickly download and use those on a give dataset. API contains thousands of pretrained models to perform many tasks including all *BERT* modifications, however in our case we employed *alBERT* for classification. More information on *pytorch interface*(https://pypi.org/project/transformers)
 
 * Install transformers
   ```sh
   !pip install transformers
   ```
 
-* To download and use model
+* Download and use model
   ```sh
   from transformers import AutoTokenizer, AutoModel
 
@@ -131,14 +122,11 @@ To use a pre-trained transformer models *HuggingFace* provides API to quickly do
   bert_model = AutoModel.from_pretrained(bert_model)
   ```
 
-  In case you have specific data, you can train *tokenizer* on your own. (https://huggingface.co/quicktour/transformers). More considerations can be found in [Further_improvements]
-
-
 ## Tokenization & input Formatting
 ----
-Formating required is:
+Required formating:
   - *Special* tokens at the beginning and ending of each sentence.
-  - Padding & truncation to a single constant lenght. (papildyti)
+  - Padding & truncation to a single constant length. (papildyti)
   - Differ *real* tokens from *padding* tokens with attention mask.
 
 ### Special Tokens
@@ -176,9 +164,12 @@ In case dataset consists varying aptamer lengths we have to consider two *BERT* 
 * The maximum lump length can't exceed 512 tokens.
 
 Check *Class CustomerDataset* how it should be implemented. However, the last thing to consider is training time, training time is approximaly linearly dependent on *max_len*. (linkas)
+
+In case you have specific data, you can train *tokenizer* on your own. (https://huggingface.co/quicktour/transformers). More considerations can be found in [Further_improvements]
    
 ## Train
 ----
+(prideti papie pakeiciama heada pritaaintant specifiniui taskui)
 Following good practices data was divided up in *train*, *test*, *validation* groups with *80%*, *10%*, *10%* respectively, refer to *pairing.py*.
 Next, an iterator for our dataset using *torch DataLoauder* class is created, which helps to save memory compared to simply looping data and whole data loaded to memory.
 
@@ -211,7 +202,12 @@ We have created a function to simplify usage of model:
 
 _For more examples, please refer to the [Documentation](https://example.com)_ --->GAL CIA IKISTI HUGGINGFACE modeli parsisiuntima
 
-## Model performance
+##  Model Comparison
+We will consider three transformers: BERT, roBERTa, alBERT.
+
+
+
+
 1. iverciai ir grafikeliai training/val loss
 2. test data ivertinimas (gal paieskoti kitu iverciu ) + confuson matrica
 ----
@@ -219,6 +215,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_ --
 ## Further improvements
   - It is possible to create a tokenizer that learns to distinquish the most important parts of sequence, especially if some base seeks are of interest, for instance hairpins. Fit tokenizer might improve transformers efficiency.
   - In case you want to push model even further and employ *large BERT* modifications/alternatives, you should expand a dataset to help model train that massive number of parameters.
+  - Compare multiple models: roBERTa, alBERT, and the best models large version.
 
 ## Appendix
 ### A1.Saving & Loading Fine-tuned Model
