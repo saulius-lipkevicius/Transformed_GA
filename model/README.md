@@ -38,15 +38,12 @@
         <li><a href="#special-tokens">Special Tokens</a></li>
         <li><a href="#aptamer-length">Aptamer Length</a></li>
       </ul></li>
-      <li><a href="train">Train</a>
+      <li><a href="training">Training</a>
       <ul>
-        <li><a href="#model">Model</a></li>
         <li><a href="#hyperparameters">Hyperparameters</a></li>
       </ul>
     </li>
     <li><a href="#usage">Usage</a>
-    </li>
-    <li><a href="#model-comparison">Model Comparison</a>
     </li>
     <li><a href="#further-improvements">Further Improvements</a>
     </li>
@@ -137,9 +134,9 @@ Required formating:
 
 `[PAD]` - Is used to balance every input sequence lenghts.
 
-ITERPTI ARCHITEKTUROS PNG
+ITERPTI ARCHITEKTUROS PNG kad butu suprantamiau
 <p align="center">
-    <img src="./../images/logo.png" alt="Logo" width="160" height="160">
+    <img src="./../images/logos.png" alt="Logo" width="160" height="160">
   </a>
 
 * How to looks in our case
@@ -157,66 +154,45 @@ ITERPTI ARCHITEKTUROS PNG
 
 ### Aptamer Length
 
-In case dataset consists varying aptamer lengths we have to consider two *BERT* constraints:
+In case, dataset consists of varying length aptamers we have to consider two *alBERT* constraints:
 
-* All aptamer pairs must be padded or truncated to a same, fixed length.
+* Every aptamer pair must be padded or truncated to a same, fixed length.
 
 * The maximum lump length can't exceed 512 tokens.
 
-Check *Class CustomerDataset* how it should be implemented. However, the last thing to consider is training time, training time is approximaly linearly dependent on *max_len*. (linkas)
+ However, keep *max_len* as small as possible since training time approximaly linearly dependent on this parameter. [linkas]
 
-In case you have specific data, you can train *tokenizer* on your own. (https://huggingface.co/quicktour/transformers). More considerations can be found in [Further_improvements]
-   
-## Train
+
+## Training
 ----
-(prideti papie pakeiciama heada pritaaintant specifiniui taskui)
-Following good practices data was divided up in *train*, *test*, *validation* groups with *80%*, *10%*, *10%* respectively, refer to *pairing.py*.
-Next, an iterator for our dataset using *torch DataLoauder* class is created, which helps to save memory compared to simply looping data and whole data loaded to memory.
-
+Following good practice, data was divided up in *train*, *test*, *validation* groups with *80%*, *10%*, *10%* percentage of data respectively, refer to *pairing.py*.
+Next, an *iterator* for our dataset using *torch DataLoauder* class is created, which helps to save memory compared to simply data looping which stucks whole loaded data to memory.
 
 * train, validation datasets
   ```sh
   train_loader = DataLoader(train_set, batch_size=bs, num_workers=1)
   val_loader = DataLoader(val_set, batch_size=bs, num_workers=1)
   ```
-  Now, if we have a worker process, we can make use of the fact that our machine has multiple cores. This means that the next batch can already be loaded and ready to go by the time the main process is ready for another batch. This is where the speed up comes from. The batches are loaded using additional worker processes and are queued up in memory. Optimal number of workers is equal 1.[https://deeplizard.com/learn/video/kWVgvsejXsE]
+  Machine with GPU has multiple cores, this means that the next batch can already be loaded and ready to go by the time the main process is ready for another batch. This is where the *number_of_workers* comes and speeds up, batches are loaded by workers and queued up in memory.  Optimal number of workers is equal 1.[https://deeplizard.com/learn/video/kWVgvsejXsE]
 
-
-### Model
-[https://huggingface.com/transformers] lists all possible *BERT* alternatives/modifications to choose from.
-
-### Hyperparameters
-Authors suggest to use *learning rate = x* (saltinis)
-Also, to optimize training time, we suggest to test *batch_size = y*, however it is related to learning rate linearly. (saltinis)
-
+Check Appendix to check how other hyperparameters can be optimized.
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 ----
 We have created a function to simplify usage of model:
-* How to use model
+* How to predict employing model
   ```sh
   test_prediction(net=model, device=device, dataloader=test_loader, with_labels=True, result_file=path_to_output_file)
   ```
-**padaryti hugging face modeliu**
+**IKELTI I HUGGINGFACE platforma, jeigu tinka musu modelis**
 
-_For more examples, please refer to the [Documentation](https://example.com)_ --->GAL CIA IKISTI HUGGINGFACE modeli parsisiuntima
-
-##  Model Comparison
-We will consider three transformers: BERT, roBERTa, alBERT.
-
-
-
-
-1. iverciai ir grafikeliai training/val loss
-2. test data ivertinimas (gal paieskoti kitu iverciu ) + confuson matrica
-----
+Please refer to the [Model usage helicopter overview](https://huggingface.co/transformers/v1.0.0/model_doc/overview.html).
 
 ## Further improvements
-  - It is possible to create a tokenizer that learns to distinquish the most important parts of sequence, especially if some base seeks are of interest, for instance hairpins. Fit tokenizer might improve transformers efficiency.
+  - It is possible to create a tokenizer that learns to distinguish the most important parts of sequence, especially if some nucleotide base combinations are of interest, for instance hairpins. Fit tokenizer might improve transformers efficiency. (https://huggingface.co/quicktour/transformers)
   - In case you want to push model even further and employ *large BERT* modifications/alternatives, you should expand a dataset to help model train that massive number of parameters.
-  - Compare multiple models: roBERTa, alBERT, and the best models large version.
-
+   
 ## Appendix
 ### A1.Saving & Loading Fine-tuned Model
 ### A2.Optimizer & Learning Rate Scheduler
@@ -225,10 +201,12 @@ We will consider three transformers: BERT, roBERTa, alBERT.
 2. batch size su learning rate santykis
 3. kas yra svorio kritimas
 4. ar laudinti modeli, t.y. sioje skiltyje???
+5.  Hyperparameters
+Authors suggest to use *learning rate = x* (saltinis)
+Also, to optimize training time, we suggest to test *batch_size = y*, however it is related to learning rate linearly. (saltinis)
 
 ## Acknowledgements
 ----
- 
 1. [HuggingFace](https://huggingface.co) :hugs: documentation to pick the most suitable model for your task.
 2. i paperius apie svorius learning rate ir etc 
 
