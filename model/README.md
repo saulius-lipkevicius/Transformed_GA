@@ -29,23 +29,48 @@
     <li>
       <a href="#about-the-bert">About The BERT</a>
       <ul>
-        <li><a href="#built-with">Built With</a></li>
+        <li><a href="#model-advantages">Model advantages</a></li>
       </ul>
     </li>
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#colab-setup">Colab Setup</a></li>
+        <li><a href="#preprocess-and-data-locate">Preprocess and Data Locate</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
+    <li><a href="#tokenization-&-input-formatting">Tokenization & input Formatting</a>
+    </li>
+    <ul>
+        <li><a href="#special-tokens">Special Tokens</a></li>
+        <li><a href="#aptamer-length">Aptamer Length</a></li>
+      </ul></li>
+      <li><a href="train">Train</a>
+      <ul>
+        <li><a href="#model">Model</a></li>
+        <li><a href="#hyperparameters">Hyperparameters</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a>
+    </li>
+    <li><a href="#model-performance">Model Performance</a>
+    </li>
+    <li><a href="#further-improvements">Further Improvements</a>
+    </li>
+    <li><a href="#appendix">Appendix</a>
+    <ul>
+        <li><a href="#saving&loading-fine-tuned-model">Saving & Loading fine-tuned Model</a></li>
+        <li><a href="#optimizer-&-learning-rate-scheduler">Optimizer & Learning Rate Scheduler</a></li>
+        <li><a href="#weight-decay">Weight Decay</a></li>
+      </ul>
+    <li><a href="#acknowledgements">Acknowledgements</a>
   </ol>
 </details>
 
 
-
+Model Performance
+Further improvements
+2 Appendix
 <!-- ABOUT THE PROJECT -->
 ## About The BERT
 ----
@@ -70,7 +95,7 @@ It differs from base BERT model by one untrained layer of neurons on the end and
 
 ## Getting Started 
 ----
-### Setup Colab
+### Colab Setup
 Google Colabatory offers free GPUs which is perfect to train large neural networks like BERTs. To add GPU select on menu:
 
 `Edit -->  Notebook Settings --> Hardware accelerator --> (GPU)`
@@ -197,8 +222,8 @@ _For more examples, please refer to the [Documentation](https://example.com)_ --
 
 ## Appendix
 ### A1.Saving & Loading Fine-tuned Model
-### A2. Optimizer & Learnung Rate Scheduler
-### A3. Weight Decay
+### A2.Optimizer & Learning Rate Scheduler
+### A3.Weight Decay
 1. Kaip pasirinkti optimezeri ir learning rate
 2. batch size su learning rate santykis
 3. kas yra svorio kritimas
