@@ -190,7 +190,7 @@ We have created a function to simplify usage of model:
 Please refer to the [Model usage helicopter overview](https://huggingface.co/transformers/v1.0.0/model_doc/overview.html).
 
 ## Further improvements
-  - It is possible to create a tokenizer that learns to distinguish the most important parts of sequence, especially if some nucleotide base combinations are of interest, for instance hairpins. Fit tokenizer might improve transformers efficiency. (https://huggingface.co/quicktour/transformers)
+  - It is possible to create a tokenizer that learns to distinguish the most important parts of sequence, especially if some nucleotide base combinations are of interest, for instance hairpins. Fit tokenizer might improve transformers efficiency. [Quicktour for tokenizer creation](https://huggingface.co/quicktour/transformers).
   - In case you want to push model even further and employ *large BERT* modifications/alternatives, you should expand a dataset to help model train that massive number of parameters.
    
 ## Appendix
@@ -200,13 +200,13 @@ Please refer to the [Model usage helicopter overview](https://huggingface.co/tra
 1. Kaip pasirinkti optimezeri ir learning rate
 2. batch size su learning rate santykis
 3. kas yra svorio kritimas
-4. ar laudinti modeli, t.y. sioje skiltyje???
-5.  Hyperparameters
+4.  Hyperparameters
 Authors suggest to use *learning rate = x* (saltinis)
 Also, to optimize training time, we suggest to test *batch_size = y*, however it is related to learning rate linearly. (saltinis)
 
 ## Acknowledgements
 ----
-1. [HuggingFace](https://huggingface.co) :hugs: documentation to pick the most suitable model for your task.
+1. [HuggingFace](https://huggingface.co) :hugs:
 2. i paperius apie svorius learning rate ir etc 
-
+3. [PyTorch tutorials](https://pytorch.org/tutorials/) save&load methds, dataloaders, checkpoints and etc
+   
