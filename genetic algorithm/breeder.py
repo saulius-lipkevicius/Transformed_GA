@@ -4,6 +4,16 @@ import random, decimal
 from numpy import mean
 import numpy as np
 import pandas as pd
+import argparse
+
+parser = argparse.ArgumentParser(description='Breeder acquires new aptamers...')
+parser.add_argument("--p", "--path_initial_aptamers"
+                        , help="Path to fittest aptamers CSV"
+                        , type=str)
+parser.add_argument("--l", "--output_location"
+                        , help="Location of new breed"
+                        , type=str)
+args = parser.parse_args()
 
 
 # parents are in the format of ['ACGTCGT', fitness score]
@@ -52,6 +62,7 @@ def main():
 
     location = './datasets/GA_iterations/breeding_{}'.format(1)
     afterBreed.to_csv(location, encoding='utf-8', index=False)
+
 
 
 if __name__=="__main__":

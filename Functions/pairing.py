@@ -3,6 +3,16 @@ import numpy as np
 from sklearn.utils import shuffle
 
 
+parser = argparse.ArgumentParser(description='Breeder acquires new aptamers...')
+parser.add_argument("--p", "--path_initial_aptamers"
+                        , help="Path to fittest aptamers CSV"
+                        , type=str)
+parser.add_argument("--l", "--labeled"
+                        , help="Is data labeled"
+                        , action="store_true")
+args = parser.parse_args()
+
+
 def pairLabel(df):
     apt1 = pd.DataFrame(columns=['Sequence1', 'Entropy1'])
     apt2 = pd.DataFrame(columns=['Sequence2', 'Entropy2'])

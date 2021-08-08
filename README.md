@@ -30,12 +30,12 @@
     <img src="images/logo.png" alt="Logo" width="160" height="160">
   </a>
 
-  <h3 align="center">Transformers enhanced aptamer design software </h3>
+  <h3 align="center">Transformers Enhanced Aptamer Design Software </h3>
 
   <p align="center">
     An jumpstart to fit aptamers!
     <br />
-    <a href="https://github.com/"><strong>Explore the wiki »</strong></a>
+    <a href="https://github.com/"><strong>Explore Wiki »</strong></a>
     <br />
     <br />
     <a href="https://github.com/">View Demo</a>
@@ -104,11 +104,7 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 ----
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+
 
 ### Installation
 ----
