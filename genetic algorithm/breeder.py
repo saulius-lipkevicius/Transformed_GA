@@ -10,7 +10,7 @@ parser = argparse.ArgumentParser(description='Breeder acquires new aptamers...')
 parser.add_argument("--p", "--path_initial_aptamers"
                         , help="Path to fittest aptamers CSV"
                         , type=str)
-parser.add_argument("--l", "--output_location"
+parser.add_argument("--o", "--output_location"
                         , help="Location of new breed"
                         , type=str)
 args = parser.parse_args()

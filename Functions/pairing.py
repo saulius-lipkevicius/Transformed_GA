@@ -13,7 +13,7 @@ parser.add_argument("--l", "--labeled"
 args = parser.parse_args()
 
 
-def pairLabel(df):
+def pairWihtLabel(df):
     apt1 = pd.DataFrame(columns=['Sequence1', 'Entropy1'])
     apt2 = pd.DataFrame(columns=['Sequence2', 'Entropy2'])
 
@@ -30,6 +30,25 @@ def pairLabel(df):
     dataset = shuffle(dataset)
 
     return dataset[['Sequence1', 'Sequence2', 'Label']]
+
+
+def pairWihtoutLabel(df):
+    apt1 = pd.DataFrame(columns=['Sequence1'])
+    apt2 = pd.DataFrame(columns=['Sequence2'])
+
+    for first in range(0,len(df)):
+        x = pd.DataFrame({'Sequence1':df.loc[first,'Sequence']},index = range(1))
+        apt1 = apt1.append([x]*(len(df) - first - 1), ignore_index=True)
+            
+    for second in range(1,len(df) + 1):
+        y = pd.DataFrame({'Sequence2':df.loc[second:,'Sequence']})
+        apt2 = apt2.append(y, ignore_index=True)
+
+    dataset = apt1.join(apt2)
+    dataset = shuffle(dataset)
+
+    return dataset[['Sequence1', 'Sequence2']]
+
 
 
 def balanceData(dataset):
@@ -53,11 +72,17 @@ def balanceData(dataset):
 
 
 def main():
+
     path = './datasets/'
     dataPath = './datasets/scored_sequences.csv'
     df = pd.read_csv(dataPath)
-    data = pairLabel(df)
-    dataset = balanceData(data)
+
+    if !args.l:
+        data = pairWithoutLabel(df)
+        dataset = data.loc[1:int(.8*len(data))]
+    else:
+        data = pairWithLabel(df)
+        dataset = balanceData(data)
     
     train, test, val = np.split(data, [int(.8*len(data)), int(.9*len(data))]) #80% training, 10% validating, 10% testing
 

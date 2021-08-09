@@ -1,6 +1,17 @@
 import pandas as pd
 import numpy as np
 import os
+import argparse
+
+parser = argparse.ArgumentParser(description="Calculates top N'%' aptamers")
+parser.add_argument("--p", "--path"
+                        , help="Path to paired aptamers"
+                        , type=str)
+parser.add_argument("--l", "--output_location"
+                        , help="Location of new breed"
+                        , type=str)
+args = parser.parse_args()
+
 
 def dominanceScore(dataset, initialAptamers):
     power = {}
@@ -30,20 +41,16 @@ def main():
 
     power = dominanceScore(df, aptList)
 
-    
-
     preprocessedToGA = pd.DataFrame(power)
     preprocessedToGA.columns = ['Sequence', 'Power'] 
     preprocessedToGA['Power'] = preprocessedToGA['Power'].round(decimals=3)
 
-    dirName = './datasets/GA_iterations'
     try:
-        # Create target Directory
         os.mkdir(dirName)
         print("Directory " , dirName ,  " Created ") 
     except FileExistsError:
         print("Directory " , dirName ,  " already exists")
-
+    #prideti saving excelio
 
     location = './datasets/GA_iterations/top100_{}'.format(1)
     preprocessedToGA.to_csv(location, encoding='utf-8', index=False)
