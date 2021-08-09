@@ -1,11 +1,19 @@
 import pandas as pd
 import numpy as np
 from sklearn.utils import shuffle
+import argparse
+pd.options.mode.chained_assignment = None  # default='warn'
 
 
 parser = argparse.ArgumentParser(description='Breeder acquires new aptamers...')
 parser.add_argument("--p", "--path_initial_aptamers"
-                        , help="Path to fittest aptamers CSV"
+                        , help="Path to evaluatedd aptamers with M.A.W.S"
+                        , type=str)
+parser.add_argument("--o", "--output_path"
+                        , help="Path to save new generation of aptamers"
+                        , type=str)
+parser.add_argument("--i", "--iter"
+                        , help="The iteration number"
                         , type=str)
 parser.add_argument("--l", "--labeled"
                         , help="Is data labeled"
@@ -13,7 +21,7 @@ parser.add_argument("--l", "--labeled"
 args = parser.parse_args()
 
 
-def pairWihtLabel(df):
+def pairWithLabel(df):
     apt1 = pd.DataFrame(columns=['Sequence1', 'Entropy1'])
     apt2 = pd.DataFrame(columns=['Sequence2', 'Entropy2'])
 
@@ -32,7 +40,7 @@ def pairWihtLabel(df):
     return dataset[['Sequence1', 'Sequence2', 'Label']]
 
 
-def pairWihtoutLabel(df):
+def pairWithoutLabel(df):
     apt1 = pd.DataFrame(columns=['Sequence1'])
     apt2 = pd.DataFrame(columns=['Sequence2'])
 
@@ -72,25 +80,28 @@ def balanceData(dataset):
 
 
 def main():
+    df = pd.read_csv(args.p)
 
-    path = './datasets/'
-    dataPath = './datasets/scored_sequences.csv'
-    df = pd.read_csv(dataPath)
+    if args.l:
+        path = './datasets/training/'
 
-    if !args.l:
-        data = pairWithoutLabel(df)
-        dataset = data.loc[1:int(.8*len(data))]
-    else:
         data = pairWithLabel(df)
         dataset = balanceData(data)
+
+        train, test, val = np.split(data, [int(.8*len(data)), int(.9*len(data))]) #80% training, 10% validating, 10% testing
     
-    train, test, val = np.split(data, [int(.8*len(data)), int(.9*len(data))]) #80% training, 10% validating, 10% testing
+        print("Migrating preprocessed training data to {}".format(path))
+        data.to_csv('./datasets/training/full_comparison.csv', encoding='utf-8', index=False)
+        train.to_csv('./datasets/training/train.csv', encoding='utf-8', index=False)
+        test.to_csv('./datasets/training/test.csv', encoding='utf-8', index=False)
+        val.to_csv('./datasets/training/val.csv', encoding='utf-8', index=False)
+        dataset.to_csv('{}/iteration_{}.csv'.format(args.o, args.i), encoding='utf-8', index=False)
+    else:
+        dataset = pairWithoutLabel(df)
+    
+        print("Saving new generation {} to {}".format(args.i, args.o))
+        dataset.to_csv('{}/iteration_{}.csv'.format(args.o, args.i), encoding='utf-8', index=False)
+    
 
-    print("Migrating datasets to CSV to {}".format(path))
-    data.to_csv('./datasets/full_comparison.csv', encoding='utf-8', index=False)
-    train.to_csv('./datasets/train.csv', encoding='utf-8', index=False)
-    test.to_csv('./datasets/test.csv', encoding='utf-8', index=False)
-    val.to_csv('./datasets/val.csv', encoding='utf-8', index=False)
-
-if __name__ == "__main__":
+if __name__ == "__main__":+
     main()

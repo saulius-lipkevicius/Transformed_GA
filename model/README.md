@@ -204,6 +204,13 @@ Please refer to the [Model usage helicopter overview](https://huggingface.co/tra
 Authors suggest to use *learning rate = x* (saltinis)
 Also, to optimize training time, we suggest to test *batch_size = y*, however it is related to learning rate linearly. (saltinis)
 
+
+* If have more than 1 GPU:
+  ```sh
+  if torch.cuda.device_count() > 1:
+        print("We can use multiple GPUs, ", torch.cuda.device_count())
+        model = nn.DataParallel(model)
+  ```
 ## Acknowledgements
 ----
 1. [HuggingFace](https://huggingface.co) :hugs:
