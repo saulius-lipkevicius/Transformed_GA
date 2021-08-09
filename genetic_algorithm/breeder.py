@@ -15,10 +15,10 @@ parser.add_argument("--o", "--output_location"
                         , type=str)
 parser.add_argument("--l", "--lenght"
                         , help="How many aptamers we should have"
-                        , type=str)
+                        , type=int)
 parser.add_argument("--i", "--iter"
                         , help="What iteration it is"
-                        , type=str)
+                        , type=int)
 args = parser.parse_args()
 
 
@@ -67,7 +67,7 @@ def main():
     afterBreed = breed(dataset)
 
     print("New generation saved in ", args.o)
-    afterBreed.to_csv(args.o + 'breed_{}'.format(args.i), encoding='utf-8', index=False)
+    afterBreed.to_csv(args.o + '_breed_{}.csv'.format(args.i), encoding='utf-8', index=False)
 
 
 if __name__=="__main__":

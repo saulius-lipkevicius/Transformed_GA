@@ -103,5 +103,5 @@ def main():
         dataset.to_csv('{}/iteration_{}.csv'.format(args.o, args.i), encoding='utf-8', index=False)
     
 
-if __name__ == "__main__":+
+if __name__ == "__main__":
     main()

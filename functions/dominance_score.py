@@ -15,7 +15,7 @@ parser.add_argument("--o", "--output_location"
                         , type=str)
 parser.add_argument("--i", "--iter"
                         , help="What iteration it is"
-                        , type=str)
+                        , type=int)
 parser.add_argument("--l", "--apt_len"
                         , help="How many aptamers we have in total"
                         , type=int)
@@ -49,7 +49,8 @@ def main():
     preprocessedToGA = pd.DataFrame(power)
     preprocessedToGA.columns = ['Sequence', 'Power'] 
     preprocessedToGA['Power'] = preprocessedToGA['Power'].round(decimals=3)
-    preprocessedToGA.to_csv('{}best_{}'.format(args.o, args.i), encoding='utf-8', index=False)
+    print("Best aptamers have been chosen and located to {}".format(args.o))
+    preprocessedToGA.to_csv('{}'.format(args.o, args.i), encoding='utf-8', index=False)
 
 if __name__=="__main__":
     main()
