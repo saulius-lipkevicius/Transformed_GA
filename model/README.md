@@ -189,6 +189,39 @@ We have created a function to simplify usage of model:
 
 Please refer to the [Model usage helicopter overview](https://huggingface.co/transformers/v1.0.0/model_doc/overview.html).
 
+## Model optimization with ONNX
+Transformers and transformers-like achitectures have taken over many sequence related field with de-facto state-of-art performance, however it comes with high computational cost which is a burden for inference, usage of model in applications. There are few possible ways to optimize and speed-up it withoutinvesting into expensive hardware:
+
+  - **Model pruning** - Reduce the number of layers, hidden layers units or the dimension of the embeddings.
+  - **Quantization** - Sacrife model weights precision, use lower 16/8-bit precision isntead of 32-bit.
+  - **Exporting** - *PyTorch* model can be transfered to more appropiate format or inference engine, for instance *Torchscript*, *ONNX*
+  - **Batching** - predict bigger bataches of samples instead of individual samples.
+
+First two requires fine-tuning and pretraining from scratch respectively, the last one was applied in our model, hence we will optimize inference time by exporting *alBERT* to *ONNX* or *Torchscript*. Let's investigate the most suitable technique because inference time is extremely important.
+
+### Results
+`
+q_model = torch.quantization.quantize_dynamic(
+    model, {torch.nn.Linear}, dtype=torch.qint8
+)
+
+prideti pareto-frontier of accuracy loss/speed-up ratio:
+towardsdtasciencespeedup-bert-inference-different approach
+`
+
+### Expermenting
+
+`vanilla PyTorch* will be consider as a baseline `
+
+
+  
+  
+
+
+ideja is https://towardsdatascience.com/an-empirical-approach-to-speedup-your-bert-inference-with-onnx-torchscript-91da336b3a41
+
+
+
 ## Further improvements
   - It is possible to create a tokenizer that learns to distinguish the most important parts of sequence, especially if some nucleotide base combinations are of interest, for instance hairpins. Fit tokenizer might improve transformers efficiency. [Quicktour for tokenizer creation](https://huggingface.co/quicktour/transformers).
   - In case you want to push model even further and employ *large BERT* modifications/alternatives, you should expand a dataset to help model train that massive number of parameters.
