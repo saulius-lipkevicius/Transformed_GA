@@ -10,6 +10,7 @@
 - [ ] Pasalinti harcodintus parametrus
 - [ ] Kaip reiktu fine-tuninti modeli
 - [ ] Leisti pairing python scriptui priimti dataset kaip inputa (-d)
+- [ ] yaml MORE READABLE
 
 
 <!-- PROJECT SHIELDS -->

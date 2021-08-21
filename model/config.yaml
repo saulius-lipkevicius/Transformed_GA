@@ -1,0 +1,30 @@
+#  Fine-tuning data directory
+Datasets:
+  train: ./datasets/training/train.csv
+  val: ./datasets/training/eval.csv
+  test: ./datasets/training/test.csv
+
+Model:
+  #  bert_model and hidden_state have to match, more info in
+  #  https://huggingface.co/transformers/pretrained_models.html
+  bert_model: albert-base-v2
+  #  elif bert_model == "albert-large-v2":  # 17M parameters
+  #          hidden_size = 1024
+  hidden_size: 768
+  with_labels: true
+  batch_size: 64
+  max_len: 32
+  freeze_bert: false
+  dropout_rate: 0.1
+  iters_to_accumulate: 2
+  learning_rate: 5e-5
+  epochs: 40
+  num_warmup_steps: 10000
+#  In case of multiclass classification model change label number parameter
+  number_labels: 1
+
+Random:
+  print_every: 1
+  path_to_model: ./model/Albert-base-20epoch-val0-4-run2.pt
+  path_to_model_evaluation: ./datasets/model_validation/Albert-base-20epoch-val0-4-run2.csv
+

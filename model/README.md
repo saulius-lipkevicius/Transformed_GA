@@ -250,3 +250,6 @@ Also, to optimize training time, we suggest to test *batch_size = y*, however it
 2. i paperius apie svorius learning rate ir etc 
 3. [PyTorch tutorials](https://pytorch.org/tutorials/) save&load methds, dataloaders, checkpoints and etc
    
+
+
+
