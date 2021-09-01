@@ -4,3 +4,9 @@ sklearn
 pyyaml
 ruamel.yaml
 python-ipynb
+transformers==4.9.1
+onnx
+onnxruntime
+tqdm
+matplotlib
+argparse

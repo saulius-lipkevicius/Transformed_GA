@@ -1,18 +1,3 @@
-
-### To-do
-- [ ] Pritaikyti NN modelio outputa (seq1,seq2,label)
-- [ ] Pradinis pairing turi issisakoti i dvi puses: pirmas sukurti dataset modelio traininimui, antra atgrupuoti N% geriausiu aptameru GA
-- [ ] Ka daryti su abejotinomis sekomis is modelio outputo? t.y. 0.4-0.6 intervalo
-- [ ] Prideti iteraciju sekima GA procesui 
-- [ ] Prideti default vertes funkcijose
-- [ ] Perrasyti preprocesinga GA foldery
-- [ ] Paieskoti ar crossoveriui skilimas buna visiskai random, ar tarkim dazniau vidury?
-- [ ] Pasalinti harcodintus parametrus
-- [ ] Kaip reiktu fine-tuninti modeli
-- [ ] Leisti pairing python scriptui priimti dataset kaip inputa (-d)
-- [ ] yaml MORE READABLE
-
-
 <!-- PROJECT SHIELDS -->
 <!--
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
@@ -54,20 +39,17 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
+      <a href="#motivation">Motivation</a>
     </li>
     <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
+      <a href="#model-dataflow">Model Dataflow</a>
+    </li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#getting-starter">Getting Started</a></li>
+        <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
       </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -78,23 +60,21 @@
 
 
 <!-- ABOUT THE PROJECT -->
-## About The Project
+## Motivation
 ----
-
-Prideti keleta sakiniu apie pacius aptamerus.
-
-Sakinys apie SELEX (requires the establishment of suitable protocols and can be labor and cost intensive.)
-
-Therefore the 2015 iGEM Heidelberg team developed a aptamer design tool called MAWS (Making Aptamers Without SELEX) which tries to predict aptamers by progressive selection of appropriate bases using an entropic criterion. 
+Our team this year decided to create an aptamer-based detection method to diagnose amebiasis disease caused by Entamoeba histolytica. Nevertheless, SELEX (Systematic evolution of ligands by exponential enrichment) was chosen as the main approach used to find aptamers for the protein target indicating the presence of E. histolytica. Finding a suitable aptamer by the well-established SELEX method requires the establishment of appropriate protocols, and might be a laborious and costly procedure. Keeping these reasons in mind, we started to look for in silico approaches for aptamer generation. After studying existing literature resources we found methods like M.A.W.S. (Making aptamers without SELEX), which was implemented by Heidelberg iGEM 2015 team. Based on this approach, we released an updated version that is described in the Software page. We decided to take a step further and apply a novel transformer-based neural network model  combined with a genetic algorithm to make aptamer generation in silico a more resource efficient process that has the higher potential to output an affine aptamer sequence. The key part of the model is that it has a property of transfer learning that lets anyone fine-tune the model almost instantly for modified tasks.
 
 
-Here's what have been implemented:
-* Iverciu skaiciavimas
-* Transformerio pasitelkimas paspartinti procesa
-* gal dar kazkas
 
-Of course, no one model will serve all projects since your needs may be different. So transformed model should be pre-trained on your aptamer dataset.
+### Model Dataflow
+-----
+Initially N random aptamer sequences are generated employing ELBAScore software, following it up, data must be specifically preprocessed to contain a pair of aptamers with a binary label that determines if the second sequence is more fit (1) or not (0). Paired sequences dataset is obtained by comparing every aptamer in-between by fitness score which is computed with the former software, later number of classification classes labels are balanced by flipping aptamers places for model to learn both classes equally. Many transformer-based models could fit this task, however Albert model was chosen because of its state of the Art performance with fewer parameters than threshold BERT model, which takes 4-5 times less time to train, saving days of expensive GPU runtime. Working with huge datasets like our time is the main reasoning for choosing Albert. Another significant part of the model is the genetic algorithm (GA) that produces new sequences at every iteration by well-known breeding, mutation steps, sequences are quite similar to last iteration top aptamers (is kuriu tikimes panasiu savybiu tik su geresniu fitness?) also GAs probabilistic model helped to determine convergence, how many iterations process needs, of the final aptamer list which consists of N aptamers to be investigated further. Lastly, final iteration sequences are analysed and compared by ELBAScore furthermore the best of it, 10 % of total, will be reevaluated in the lab.
 
+
+
+## Results
+-----
+Two separate models were created for protein targets Albumin and EhPPDK. Here transfer learning helped out, we had to train a model only on Albumin dataset for 2.5 days on 1 GPU and later on fine-tune the same Albert model with EhPPDK protein target dataset to save time, it took ~3 hours, because the model just needs to relearn positional embedding to inference partially different data. Initial model itself was trained on 1500 different aptamer sequences data from ELBAScore which formed 1,124,250 pairs with binary labels, 60% of it was used for training matter, 20 % for validation, and the rest for testing. To inference a new population of aptamers Albert takes approximately 5 minutes. [ikelti image of losses from training] + [metrikos] + [top aptameru iverciai su ELBALite, kokia dalis nukeliavo i labe] + [gal dar kazkokius iteracinius/tarpinius duomenis] + [pabrezti kaip efektino] + [distribucijos issemimas]
 
 
 <!-- GETTING STARTED -->
@@ -103,26 +83,14 @@ Of course, no one model will serve all projects since your needs may be differen
 This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
-### Prerequisites
+### Prerequisites & Installation
 ----
+To quickly install all packages required for algorithm run 
+```
+pip install requirements.txt
+```
 
-
-### Installation
-----
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/your_username_/Project-Name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```JS
-   const API_KEY = 'ENTER YOUR API';
-   ```
-
+In case you are running on cloud there is perfect [tutorial](https://medium.com/analytics-vidhya/install-cuda-11-2-cudnn-8-1-0-and-python-3-9-on-rtx3090-for-deep-learning-fcf96c95f7a1) how to install every dependancy you can need training deep learning model, that includes Cuda, CudaNN, PyTorch. However if you have no access to cloud GPU instances, we strongly suggest to utilize [Google Colab](https://link-url-here.org).
 
 
 <!-- USAGE EXAMPLES -->
@@ -165,8 +133,6 @@ Saulius Lipkevičius - sauliuslipkevicius@gmail.com
 ----
 
 * [IGEM Heidelberg 2015 team](http://2015.igem.org/Team:Heidelberg)
-* [Img Shields](https://shields.io)
-
 
 
 
