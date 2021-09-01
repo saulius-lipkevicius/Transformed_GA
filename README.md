@@ -116,11 +116,17 @@ Contributions are what make the open source community such an amazing place to b
 4. Push to the Branch (`git push origin feature/CuteAptamer`)
 5. Open a Pull Request
 
+###  Contributing to HuggingFace
+Any contribution to the AI community HuggingFacce community is super valuable, find more information in [HuggingFace/Contributing](https://huggingface.co/transformers/contributing.html)
+
+
+
 ###  Suggestion for future improvements
 
   1. Model code can be rewriten to TensorFlow.
   2. Different transformer-based models can be tried out, for instance, RoBerta, GPT-2 and so on.
   3. To make model more precise 3 class model could be consider instead of 2 classes, the third could stand for unknown relationship between pair of aptamers.
+   
 
 
 <!-- LICENSE -->
