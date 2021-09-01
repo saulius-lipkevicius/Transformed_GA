@@ -21,14 +21,11 @@
   <p align="center">
     An jumpstart to fit aptamers!
     <br />
-    <a href="https://github.com/"><strong>Explore Wiki »</strong></a>
+    <a href="https://igem2021.vilnius.com/"><strong>Explore Wiki »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/">View Demo</a>
-    ·
-    <a href="https://github.com/">Report Bug</a>
-    ·
-    <a href="https://github.com/">Request Feature</a>
+    <a href="https://github.com/">Create Issue</a>
+
   </p>
 </p>
 
@@ -96,9 +93,15 @@ In case you are running on cloud there is perfect [tutorial](https://medium.com/
 <!-- USAGE EXAMPLES -->
 ## Usage
 ----
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+Project can be used in two ways. In case you have the same type of dataset and task to work on, model is shared in the AI community [HuggingFace](https://huggingface.co/models) by name "VilniusIGEM2021/albert-base-aptamers". One command to rule them all
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+```
+model = AutoModel.from_pretrained('VilniusIGEM2021/albert-base-aptamers')
+```
+
+and inference as with usual transformer-based model. Read more on everything covering tutorial can be found in [HuggingFace/Transformers](https://huggingface.co/transformers/). Otherwise, if task differs, for instance you are considering longer aptamer sequences or change task from classification to sequence generation, then you have to run the process described in `model` folder with changed initial `albert-case-v2` model to `VilniusIGEM2021/albert-base-aptamers`
+
+_For more indepth ALBERT model description and explanation, please refer to the [ALBERT Documentation](https://github.com/saulius-lipkevicius/GA_Transformer/tree/main/model)_
 
 
 
@@ -113,6 +116,11 @@ Contributions are what make the open source community such an amazing place to b
 4. Push to the Branch (`git push origin feature/CuteAptamer`)
 5. Open a Pull Request
 
+###  Suggestion for future improvements
+
+  1. Model code can be rewriten to TensorFlow.
+  2. Different transformer-based models can be tried out, for instance, RoBerta, GPT-2 and so on.
+  3. To make model more precise 3 class model could be consider instead of 2 classes, the third could stand for unknown relationship between pair of aptamers.
 
 
 <!-- LICENSE -->
