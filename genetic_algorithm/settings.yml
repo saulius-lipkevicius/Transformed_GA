@@ -1,0 +1,15 @@
+Paths:
+  iteration_folder: ./datasets/ga_interim_data
+  path_to_initial_aptamers: ./datasets/training/best_0.csv
+  path_to_all_aptamers: ./datasets/training/scored_sequences.csv
+  path_to_model: ./model/Albert
+
+Parameters:
+  aptamer_len: 1000
+
+Model:
+  model_name: albert-base-v2
+  max_len: 32
+  batch_size: 64
+  with_labels: False
+
