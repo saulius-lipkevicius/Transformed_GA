@@ -1,7 +1,7 @@
 #  Fine-tuning data directory
 Datasets:
   train: ./datasets/training/train.csv
-  val: ./datasets/training/eval.csv
+  val: ./datasets/training/val.csv
   test: ./datasets/training/test.csv
 
 Model:
@@ -18,15 +18,16 @@ Model:
   dropout_rate: 0.1
   iters_to_accumulate: 2
   learning_rate: 5e-5
-  epochs: 40
+  epochs: 55
   num_warmup_steps: 10000
 #  In case of multiclass classification model change label number parameter
   number_labels: 1
   convert_to_onnx: true
-  
+
 Random:
   print_every: 1
-  path_to_model: ./model/albert-base-v2_5e-05_0.1372.pt
-  path_to_model_evaluation: ./datasets/model_validation/albert-base-v2_5e-05_0.1372.csv
-  path_to_model_test: ./datasets/model_validation/pred-albert-base-v2_5e-05_0.1372.csv
+  path_to_model: model/albert-base-v2_5e-05_0.1075.pt
+  path_to_model_evaluation: ./datasets/model_validation/albert-base-v2_5e-05_0.1075.csv
+  path_to_model_test: ./datasets/model_validation/pred-albert-base-v2_5e-05_0.1075.csv
+
 

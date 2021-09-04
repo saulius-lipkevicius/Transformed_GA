@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from sklearn.utils import shuffle
 import argparse
+import os
 pd.options.mode.chained_assignment = None  # default='warn'
 
 
@@ -85,17 +86,29 @@ def main():
     if args.l:
         path = './datasets/training/'
 
+        #  First of all we pair up every aptamer together, then balance number of accurancies of classes 1 and 0 to train those equally
         data = pairWithLabel(df)
         dataset = balanceData(data)
 
-        train, test, val = np.split(data, [int(.8*len(data)), int(.9*len(data))]) #80% training, 10% validating, 10% testing
+        #  80% training, 10% validating, 10% testing
+        train, test, val = np.split(dataset, [int(.8*len(dataset)), int(.9*len(dataset))]) 
     
+        #  Find the top N aptamers from the score_sequences.csv
+        top = df.nlargest(200, 'Entropy')
+
         print("Migrating preprocessed training data to {}".format(path))
-        data.to_csv('./datasets/training/full_comparison.csv', encoding='utf-8', index=False)
+
+        dataset.to_csv('./datasets/training/full_comparison.csv', encoding='utf-8', index=False)
         train.to_csv('./datasets/training/train.csv', encoding='utf-8', index=False)
         test.to_csv('./datasets/training/test.csv', encoding='utf-8', index=False)
         val.to_csv('./datasets/training/val.csv', encoding='utf-8', index=False)
-        dataset.to_csv('{}/iteration_{}.csv'.format(args.o, args.i), encoding='utf-8', index=False)
+
+
+        folder = './datasets/ga_interim_data/{}'.format(args.o)
+        if not os.path.exists(folder):
+            os.mkdir(folder)  
+
+        top.to_csv('{}/top_iter_0.csv'.format(folder), encoding='utf-8', index=False)
     else:
         dataset = pairWithoutLabel(df)
     

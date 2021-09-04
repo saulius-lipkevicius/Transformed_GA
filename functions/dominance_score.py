@@ -23,6 +23,7 @@ args = parser.parse_args()
 
 
 def dominanceScore(dataset):
+    dataset = pd.read_csv(args.p)
     power = {}
     initialAptamers = pd.read_csv(args.f)
 
@@ -43,8 +44,7 @@ def dominanceScore(dataset):
     return power
 
 def main():
-    df = pd.read_csv(args.p)
-    power = dominanceScore(df)
+    power = dominanceScore()
 
     preprocessedToGA = pd.DataFrame(power)
     preprocessedToGA.columns = ['Sequence', 'Power'] 
