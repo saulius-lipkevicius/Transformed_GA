@@ -51,13 +51,20 @@ def mutate(aptamer, mutation_probability = 0.002): #mutacijos
 
 
 def breed(dataset): #prideti kad geresni parent poruotusi dazniau
-    df = list(dataset['Sequence'])
     aptamers = []
-    for child in range(0,1000 - len(dataset)): # tiesiog while loop padarom
+
+    df = dataset['Sequence'].tolist()
+    aptamers.extend(df)
+   
+    iter = 0
+    while len(aptamers) < 1000:
+    #for child in range(0,1000 - len(dataset)): # tiesiog while loop padarom
         newAptamer = crossover(choice(df), choice(df))
         aptamers.append(newAptamer)
 
-    aptamers = aptamers + df
+        if len(aptamers) == 1000: #so there is no duplicates in further process
+          aptamers = list(set(aptamers))
+
     aptamers = pd.DataFrame(aptamers)
     aptamers.columns = ['Sequence']
     return aptamers

@@ -22,7 +22,7 @@ parser.add_argument("--l", "--apt_len"
 args = parser.parse_args()
 
 
-def dominanceScore(dataset):
+def dominanceScore():
     dataset = pd.read_csv(args.p)
     power = {}
     initialAptamers = pd.read_csv(args.f)
@@ -37,7 +37,7 @@ def dominanceScore(dataset):
             power[dataset.loc[t,'Sequence1']] += 1/args.l
         else:
             power[dataset.loc[t,'Sequence2']] += 1/args.l
-
+   
     n = int(len(power) * 0.10)  # floor float result, as you must use an integer
     power = sorted(power.items(), key=lambda x:x[1], reverse=True)[:n]
 
@@ -50,7 +50,7 @@ def main():
     preprocessedToGA.columns = ['Sequence', 'Power'] 
     preprocessedToGA['Power'] = preprocessedToGA['Power'].round(decimals=3)
     print("Best aptamers have been chosen and located to {}".format(args.o))
-    preprocessedToGA.to_csv('{}'.format(args.o, args.i), encoding='utf-8', index=False)
+    preprocessedToGA.to_csv('{}.csv'.format(args.o), encoding='utf-8', index=False)
 
 if __name__=="__main__":
     main()
