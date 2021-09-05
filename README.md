@@ -73,13 +73,21 @@ Initially N random aptamer sequences are generated employing ELBAScore software,
 -----
 Two separate models were created for protein targets Albumin and EhPPDK. Here transfer learning helped out, we had to train a model only on Albumin dataset for 2.5 days on 1 GPU and later on fine-tune the same Albert model with EhPPDK protein target dataset to save time, it took ~3 hours, because the model just needs to relearn positional embedding to inference partially different data. Initial model itself was trained on 1500 different aptamer sequences data from ELBAScore which formed 1,124,250 pairs with binary labels, 60% of it was used for training matter, 20 % for validation, and the rest for testing. To inference a new population of aptamers Albert takes approximately 5 minutes. [ikelti image of losses from training] + [metrikos] + [top aptameru iverciai su ELBALite, kokia dalis nukeliavo i labe] + [gal dar kazkokius iteracinius/tarpinius duomenis] + [pabrezti kaip efektino] + [distribucijos issemimas]
 
+
+
 <p align="center">
-    <img src="images/logo.png" alt="Logo" width="160" height="160">
+    <img src="images/Albumin Losses.png" alt="Logo" width="450" height="300">
+    <img src="images/Mixed Losses.png" alt="Logo" width="450" height="300">
   </a>
 
 <p align="center">
-    <img src="images/logo.png" alt="Logo" width="160" height="160">
-    <img src="images/logo.png" alt="Logo" width="160" height="160">
+    <img src="images/Albumin ROC.png" alt="Logo" width="450" height="300">
+    <img src="images/Mixed ROC.png" alt="Logo" width="450" height="300">
+  </a>
+
+<p align="center">
+    <img src="images/Albumin Confusion Matrix.png" alt="Logo" width="450" height="400">
+    <img src="images/Mixed Confusion Matrix.png" alt="Logo" width="450" height="400">
   </a>
 
 
@@ -115,7 +123,11 @@ _For more indepth ALBERT model description and explanation, please refer to the 
 
 ## V2.0 Optimization
 
-
+  - Optimizing number of aptamers taken in every sequence by common derivate calculation:
+  - Optimizing with exporting to ONNX
+  - Otimizing by diminishing accuracy to INT8
+  - Change structure of comparing
+  - change algorithm flow
 
 
 <!-- CONTRIBUTING -->

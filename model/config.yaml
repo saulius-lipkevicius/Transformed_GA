@@ -23,6 +23,7 @@ Model:
 #  In case of multiclass classification model change label number parameter
   number_labels: 1
   convert_to_onnx: true
+  model_name: Albumin
 
 Random:
   print_every: 1
