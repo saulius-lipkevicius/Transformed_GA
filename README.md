@@ -76,7 +76,7 @@ Two separate models were created for protein targets Albumin and EhPPDK. Here tr
 
 
 <p align="center">
-    <img src="images/Albumin Losses.png" alt="Logo" width="45%" height="300">
+    <img src="images/Albumin Losses.png" alt="Logo" width="45%" height="300" title="aa" alt="bb">
     <img src="images/Mixed Losses.png" alt="Logo" width="45%" height="300">
   </a>
 
