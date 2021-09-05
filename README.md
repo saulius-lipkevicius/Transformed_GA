@@ -73,13 +73,13 @@ Initially N random aptamer sequences are generated employing ELBAScore software,
 -----
 Two separate models were created for protein targets Albumin and EhPPDK. Here transfer learning helped out, we had to train a model only on Albumin dataset for 2.5 days on 1 GPU and later on fine-tune the same Albert model with EhPPDK protein target dataset to save time, it took ~3 hours, because the model just needs to relearn positional embedding to inference partially different data. Initial model itself was trained on 1500 different aptamer sequences data from ELBAScore which formed 1,124,250 pairs with binary labels, 60% of it was used for training matter, 20 % for validation, and the rest for testing. To inference a new population of aptamers Albert takes approximately 5 minutes. [ikelti image of losses from training] + [metrikos] + [top aptameru iverciai su ELBALite, kokia dalis nukeliavo i labe] + [gal dar kazkokius iteracinius/tarpinius duomenis] + [pabrezti kaip efektino] + [distribucijos issemimas]
 
-<figure><img src="images/Albumin Model Train.png" alt="" width="40%" height="300" title="Albumin Model Training and Validation Losses"><img src="images/Mixed Model Train.png" alt="Logo" width="40%" height="300">
+<figure><img src="images/Albumin Model Train.png" alt="" width="40%" height="300" title="Albumin Model Training and Validation Losses"><img src="images/Mixed Model Train.png" alt="" width="40%" height="300">
 <figcaption align = "center"><b>Target protein Albumin and EhPPDK-Albumin model training and validation losses</b></figcaption></figure>
 
-<figure><img src="images/ROC Albumin Model.png" alt="" width="45%" height="300" title="Albumin Model Training and Validation Losses"><img src="images/ROC Mixed Model.png" alt="Logo" width="45%" height="300">
+<figure><img src="images/ROC Albumin Model.png" alt="" width="45%" height="300" title="Albumin Model Training and Validation Losses" align="center"><img src="images/ROC Mixed Model.png" alt="" width="45%" height="300" align="center>
 <figcaption align = "center"><b>Target protein Albumin and EhPPDK-Albumin model ROC curves</b></figcaption></figure>
 
-<figure><img src="images/Albumin Model Confusion Matrix.png" alt="Logo" width="45%" height="350" title="Albumin Model Training and Validation Losses"><img src="images/Mixed Model Confusion Matrix.png" alt="" width="45%" height="350">
+<figure><img src="images/Albumin Model Confusion Matrix.png" alt="" width="45%" height="350" title="Albumin Model Training and Validation Losses"><img src="images/Mixed Model Confusion Matrix.png" alt="" width="45%" height="350">
 <figcaption align = "center"><b>Target protein Albumin and EhPPDK-Albumin model confusion matrices</b></figcaption></figure>
 
 
