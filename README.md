@@ -113,6 +113,10 @@ and inference as with usual transformer-based model. Read more on everything cov
 _For more indepth ALBERT model description and explanation, please refer to the [ALBERT Documentation](https://github.com/saulius-lipkevicius/GA_Transformer/tree/main/model)_
 
 
+## V2.0 Optimization
+
+
+
 
 <!-- CONTRIBUTING -->
 ## Contributing
