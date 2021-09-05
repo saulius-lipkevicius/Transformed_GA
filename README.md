@@ -76,18 +76,18 @@ Two separate models were created for protein targets Albumin and EhPPDK. Here tr
 
 
 <p align="center">
-    <img src="images/Albumin Losses.png" alt="Logo" width="450" height="300">
-    <img src="images/Mixed Losses.png" alt="Logo" width="450" height="300">
+    <img src="images/Albumin Losses.png" alt="Logo" width="45%" height="300">
+    <img src="images/Mixed Losses.png" alt="Logo" width="45%" height="300">
   </a>
 
 <p align="center">
-    <img src="images/Albumin ROC.png" alt="Logo" width="450" height="300">
-    <img src="images/Mixed ROC.png" alt="Logo" width="450" height="300">
+    <img src="images/Albumin ROC.png" alt="Logo" width="45%" height="300">
+    <img src="images/Mixed ROC.png" alt="Logo" width="45%" height="300">
   </a>
 
 <p align="center">
-    <img src="images/Albumin Confusion Matrix.png" alt="Logo" width="450" height="400">
-    <img src="images/Mixed Confusion Matrix.png" alt="Logo" width="450" height="400">
+    <img src="images/Albumin Confusion Matrix.png" alt="Logo" width="45%" height="400">
+    <img src="images/Mixed Confusion Matrix.png" alt="Logo" width="45%" height="400">
   </a>
 
 
