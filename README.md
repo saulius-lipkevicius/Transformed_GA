@@ -59,19 +59,33 @@
 <!-- ABOUT THE PROJECT -->
 ## Motivation
 ----
-Our team this year decided to create an aptamer-based detection method to diagnose amebiasis disease caused by Entamoeba histolytica. Nevertheless, SELEX (Systematic evolution of ligands by exponential enrichment) was chosen as the main approach used to find aptamers for the protein target indicating the presence of E. histolytica. Finding a suitable aptamer by the well-established SELEX method requires the establishment of appropriate protocols, and might be a laborious and costly procedure. Keeping these reasons in mind, we started to look for in silico approaches for aptamer generation. After studying existing literature resources we found methods like M.A.W.S. (Making aptamers without SELEX), which was implemented by Heidelberg iGEM 2015 team. Based on this approach, we released an updated version that is described in the Software page. We decided to take a step further and apply a novel transformer-based neural network model  combined with a genetic algorithm to make aptamer generation in silico a more resource efficient process that has the higher potential to output an affine aptamer sequence. The key part of the model is that it has a property of transfer learning that lets anyone fine-tune the model almost instantly for modified tasks.
+Our team this year decided to create an aptamer-based detection method to diagnose amebiasis disease caused by <em>Entamoeba histolytica</em>. Nevertheless, SELEX (Systematic evolution of ligands by exponential enrichment) was chosen as the main approach used to find aptamers for the protein target indicating the presence of <em>E. histolytica.</em>  
+
+Finding a suitable aptamer by the well-established SELEX method requires to set up the appropriate protocols, and might be a laborious and costly procedure. Keeping these reasons in mind, we started to look for <em>in silico</em> approaches for aptamer generation. After studying existing literature resources, we found methods like M.A.W.S. (Making aptamers without SELEX), which was implemented by Heidelberg iGEM 2015 team. Based on this approach, we released an updated version that is described in the [Software page](https://2021.igem.org/Team:Vilnius-Lithuania/Software).
+
+We decided to take a step further and apply a novel transformer-based neural network model  combined with a genetic algorithm to make aptamer generation <em>in silico</em> a more resource-efficient process that has the higher potential to output an affine aptamer sequence. The key part of the model is that it has a property of transfer learning that lets anyone fine-tune the model almost instantly for modified tasks.
 
 
 
 ### Model Dataflow
 -----
-Initially N random aptamer sequences are generated employing ELBAScore software, following it up, data must be specifically preprocessed to contain a pair of aptamers with a binary label that determines if the second sequence is more fit (1) or not (0). Paired sequences dataset is obtained by comparing every aptamer in-between by fitness score which is computed with the former software, later number of classification classes labels are balanced by flipping aptamers places for model to learn both classes equally. Many transformer-based models could fit this task, however Albert model was chosen because of its state of the Art performance with fewer parameters than threshold BERT model, which takes 4-5 times less time to train, saving days of expensive GPU runtime. Working with huge datasets like our time is the main reasoning for choosing Albert. Another significant part of the model is the genetic algorithm (GA) that produces new sequences at every iteration by well-known breeding, mutation steps, sequences are quite similar to last iteration top aptamers (is kuriu tikimes panasiu savybiu tik su geresniu fitness?) also GAs probabilistic model helped to determine convergence, how many iterations process needs, of the final aptamer list which consists of N aptamers to be investigated further. Lastly, final iteration sequences are analysed and compared by ELBAScore furthermore the best of it, 10 % of total, will be reevaluated in the lab.
+Initially, N random aptamer sequences are generated employing ELBAScore software. Following it up, data must be specifically preprocessed to contain a pair of aptamers with a binary label that determines if the second sequence is more fit (1) or not (0).
 
+The dataset of paired sequences is obtained by comparing every aptamer in-between by fitness score, which is computed with the former software.
+Later on, the number of classification classes labels are balanced by flipping aptamers places for BERT model to learn both classes equally.
+
+Many transformer-based models could fit this task, however Albert model was chosen because of its state of the Art performance with fewer parameters than the threshold BERT model, which takes 4-5 times less time to train, saving days of expensive GPU runtime. Working with huge datasets like ours time is the main reasoning for choosing Albert. 
+
+Another significant part of the model is the genetic algorithm (GA) that produces new sequences at every iteration by well-known breeding and mutation steps. Additionally, GAs probabilistic model helped to determine the convergence and how many iterations the process requires to produce the final aptamer list which consists of N aptamers to be investigated further. 
+
+Lastly, the sequences of the final iteration are analyzed and compared by ELBAScore. Furthermore the top 10 % of total will be reevaluated in the lab.
 
 
 ## Results
 -----
-Two separate models were created for protein targets Albumin and EhPPDK. Here transfer learning helped out, we had to train a model only on Albumin dataset for 2.5 days on 1 GPU and later on fine-tune the same Albert model with EhPPDK protein target dataset to save time, it took ~3 hours, because the model just needs to relearn positional embedding to inference partially different data. Initial model itself was trained on 1500 different aptamer sequences data from ELBAScore which formed 1,124,250 pairs with binary labels, 60% of it was used for training matter, 20 % for validation, and the rest for testing. To inference a new population of aptamers Albert takes approximately 5 minutes. [ikelti image of losses from training] + [metrikos] + [top aptameru iverciai su ELBALite, kokia dalis nukeliavo i labe] + [gal dar kazkokius iteracinius/tarpinius duomenis] + [pabrezti kaip efektino] + [distribucijos issemimas]
+Two separate models were created for protein targets albumin and EhPPDK. Here the transfer learning helped out - we had to train a model only on an albumin dataset for 2.5 days on 1 GPU and later on only to fine-tune the same Albert model with EhPPDK protein target dataset. This approach saved us some time, since it took ~3 hours for the model to relearn positional embedding to inference partially different data. 
+
+The initial model itself was trained on 1500 different aptamer sequences data from ELBAScore, which formed 1,124,250 pairs with binary labels, 60% of it was used for training matter, 20 % for validation, and the remaining 20% for testing. To inference a new population of aptamers Albert takes approximately 5 minutes. [metrikos] + [top aptameru iverciai su ELBALite, kokia dalis nukeliavo i labe] + [gal dar kazkokius iteracinius/tarpinius duomenis] + [pabrezti kaip efektino] + [distribucijos issemimas]
 
 <figure><img src="images/Albumin Model Train.png" alt="" width="40%" height="300" title="Albumin Model Training and Validation Losses"><img src="images/Mixed Model Train.png" alt="" width="40%" height="300">
 <figcaption align = "center"><b>Target protein Albumin and EhPPDK-Albumin model training and validation losses</b></figcaption></figure>
@@ -86,31 +100,32 @@ Two separate models were created for protein targets Albumin and EhPPDK. Here tr
 <!-- GETTING STARTED -->
 ## Getting Started
 ----
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+This is an example of how you may give instructions on setting up your project locally. In order to run the model locally, follow these simple example steps.
 
 ### Prerequisites & Installation
 ----
-To quickly install all packages required for algorithm run 
+To quickly install all packages required for algorithm run:
 ```
 pip install requirements.txt
 ```
 
-In case you are running on cloud there is perfect [tutorial](https://medium.com/analytics-vidhya/install-cuda-11-2-cudnn-8-1-0-and-python-3-9-on-rtx3090-for-deep-learning-fcf96c95f7a1) how to install every dependancy you can need training deep learning model, that includes Cuda, CudaNN, PyTorch. However if you have no access to cloud GPU instances, we strongly suggest to utilize [Google Colab](https://link-url-here.org).
+In case you are running on cloud there is a perfect [tutorial](https://medium.com/analytics-vidhya/install-cuda-11-2-cudnn-8-1-0-and-python-3-9-on-rtx3090-for-deep-learning-fcf96c95f7a1) on how to install every dependency you might need to train a deep learning model. These dependencies include Cuda, CudaNN, and PyTorch. However, if you have no access to cloud GPU instances, we strongly suggest to utilize [Google Colab](https://link-url-here.org).
 
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 ----
-Project can be used in two ways. In case you have the same type of dataset and task to work on, model is shared in the AI community [HuggingFace](https://huggingface.co/models) by name "VilniusIGEM2021/albert-base-aptamers". One command to rule them all
+Project can be used in two ways. In case you have the same type of dataset and the task to work on, the model is shared in the AI community [HuggingFace](https://huggingface.co/models) by name "VilniusIGEM2021/albert-base-aptamers". One command to rule them all and inference as with usual transformer-based model:
 
 ```
 model = AutoModel.from_pretrained('VilniusIGEM2021/albert-base-aptamers')
 ```
 
-and inference as with usual transformer-based model. Read more on everything covering tutorial can be found in [HuggingFace/Transformers](https://huggingface.co/transformers/). Otherwise, if task differs, for instance you are considering longer aptamer sequences or change task from classification to sequence generation, then you have to run the process described in `model` folder with changed initial `albert-case-v2` model to `VilniusIGEM2021/albert-base-aptamers`
+More information related to this flow can be found in [HuggingFace/Transformers](https://huggingface.co/transformers/). 
 
-_For more indepth ALBERT model description and explanation, please refer to the [ALBERT Documentation](https://github.com/saulius-lipkevicius/GA_Transformer/tree/main/model)_
+Otherwise, if task differs, for example in case of the longer aptamer sequences or it is required to change the task from classification to sequence generation, then you have to run the process described in `model` folder with changed initial `albert-case-v2` model to `VilniusIGEM2021/albert-base-aptamers`.
+
+_For more in-depth ALBERT model description and explanation, please refer to the [ALBERT Documentation.](https://github.com/saulius-lipkevicius/GA_Transformer/tree/main/model)_
 
 
 ## V2.0 Optimization
@@ -119,22 +134,24 @@ _For more indepth ALBERT model description and explanation, please refer to the 
   - Optimizing with exporting to ONNX
   - Otimizing by diminishing accuracy to INT8
   - Change structure of comparing
-  - change algorithm flow
+  - Change algorithm flow
 
 
 <!-- CONTRIBUTING -->
 ## Contributing
 ----
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**. 
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/CuteAptamer`)
-3. Commit your Changes (`git commit -m 'Add my feature'`)
-4. Push to the Branch (`git push origin feature/CuteAptamer`)
-5. Open a Pull Request
+In order to contribute, please follow the steps below:
+
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/CuteAptamer`)
+3. Commit your changes (`git commit -m 'Add my feature'`)
+4. Push to the branch (`git push origin feature/CuteAptamer`)
+5. Open a pull request
 
 ###  Contributing to HuggingFace
-Any contribution to the AI community HuggingFacce community is super valuable, find more information in [HuggingFace/Contributing](https://huggingface.co/transformers/contributing.html)
+Any contribution to the AI community HuggingFacce community is super valuable, find more information in [HuggingFace/Contributing.](https://huggingface.co/transformers/contributing.html)
 
 
 
@@ -142,7 +159,7 @@ Any contribution to the AI community HuggingFacce community is super valuable, f
 
   1. Model code can be rewriten to TensorFlow.
   2. Different transformer-based models can be tried out, for instance, RoBerta, GPT-2 and so on.
-  3. To make model more precise 3 class model could be consider instead of 2 classes, the third could stand for unknown relationship between pair of aptamers.
+  3. To make model more precise, a model embedding 3 classes instead of 2 could be considered. The third class could stand for the unknown relationship between a pair of aptamers.
    
 
 
