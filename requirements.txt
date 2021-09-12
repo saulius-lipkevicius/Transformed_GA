@@ -10,3 +10,4 @@ onnxruntime
 tqdm
 matplotlib
 argparse
+seaborn
