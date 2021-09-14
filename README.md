@@ -55,7 +55,7 @@
 <!-- ABOUT THE PROJECT -->
 ## Motivation
 
-This transformer-based neural network software is the ELBALite extension that speedup kinetic aptamer evaluation by 20 times and enables quick iterative inference on sequences. In consequence, genetic algorithm (GA) can be introduced to help out TEA to generate TOP aptamers for target protein also worth mentioning, models key property of transfer learning can be employed to fine-tune (re-train) it for any target protein of interest without need of expensive GPUs. To add up, many transformer-based models could fit this task, however Albert model was chosen because of its state of the Art performance with fewer parameters (11M) than threshold BERT model (110M), which takes ~10 times less time to train, fine-tune or inference, saving days of expensive GPU runtime. Working with massive datasets like our time is the crucial reasoning. 
+This transformer-based neural network software is the ELBALite extension that speedup kinetic aptamer evaluation by 20 times and enables quick iterative inference on sequences. In consequence, genetic algorithm (GA) can be introduced to help out TEA to generate TOP aptamers for target protein also worth mentioning, models key property of transfer learning can be employed to fine-tune (re-train) it for any target proteins of interest without need of expensive GPUs. To add up, many transformer-based models could fit this task, however Albert model was chosen because of its state of the Art performance with fewer parameters (11M) than threshold BERT model (110M), which takes ~10 times less time to train, fine-tune or inference, saving days of expensive GPU runtime. Working with massive datasets like our time is the crucial reasoning. 
 
 ### Model Dataflow
 
@@ -71,71 +71,67 @@ Next, paired aptamers are put to the GA that produces new sequences from the the
 
 
 ## Results
------
 
-Two separate models were created for protein targets Albumin and EhPPDK. Here transfer learning helped out, we had to train a model only on Albumin dataset for 2.5 days on 1 GPU and later on fine-tune the same Albert model with EhPPDK protein target dataset to save time, it took ~3 hours, because the model just needs to relearn positional embedding to inference partially different data. Initial model itself was trained on 1500 different aptamer sequences data from ELBAScore which formed 1,124,250 pairs with binary labels, 60% of it was used for training matter, 20 % for validation, and the rest for testing. To inference a new population of aptamers Albert takes approximately 5 minutes. [ikelti image of losses from training] + [metrikos] + [top aptameru iverciai su ELBALite, kokia dalis nukeliavo i labe] + [gal dar kazkokius iteracinius/tarpinius duomenis] + [pabrezti kaip efektino] + [distribucijos issemimas]
+Fine-tuning two models with various hyperparameter to try took up <12 hours which is enough for a model to learn positional embeddings difference between Natural Language and language of proteins. Dataset for the learing part consisted of 1500 different aptamer sequences from ELBAScore which were later on paired to form 433050 pairs with binary labels, 70% of it was used for training matter, 15 % for validation, and the rest for testing. 
 
+Comparing the accuracy and other significant metrics of fine-tuned `albert-base-v2` and `albert-large-v2` models for Albumin, large version has an edge over base just by 4 % and makes inferences almost twice as long compared to its simpler version hence `albert-base-v2` is chosen.
 
-![a](images/Albumin Base Confusion Matrix.png)  |  ![a](images/Albumin Base Confusion Matrix.png)
-
-<img src="images/Albumin ROC Curves.png" width="33%" />
 <p align="middle">
-  
-  <img src="images/Albumin Base Confusion Matrix.png" width="30%" /> 
-  <img src="images/Albumin Large Confusion Matrix.png" width="30%" />
+  <img src="images/Albumin Base Confusion Matrix.png" width="40%" /> 
+  <img src="images/Albumin Large Confusion Matrix.png" width="40%" />
 </p>
 
+<p align="middle">
+<img src="images/Albumin ROC Curves.png" width="50%" />
+</p>
 
-<figure><img src="images/ROC Albumin Model.png" alt="" width="45%" height="300" title="Albumin Model Training and Validation Losses" align="center"><img src="images/ROC Mixed Model.png" alt="" width="45%" height="300" align="center>
-<figcaption align = "center"><b>Target protein Albumin and EhPPDK-Albumin model ROC curves</b></figcaption></figure>
+Albert employed in our GA iterative process is capable of evaluating 800 aptamers per iteration which takes from 7 to 8 minutes. 
 
-<figure><img src="images/Albumin Model Confusion Matrix.png" alt="" width="45%" height="350" title="Albumin Model Training and Validation Losses"><img src="images/Mixed Model Confusion Matrix.png" alt="" width="45%" height="350">
-<figcaption align = "center"><b>Target protein Albumin and EhPPDK-Albumin model confusion matrices</b></figcaption></figure>
-
+- [ ] prideti konvergavimo salyga ir apie bayeso modeli garantavimui
+- [ ] prideti judancius grafikelius is 0-100 distribuciju su judejimu i desine ---> 82
+- [ ] itraukti tesktu santraukas
 
 <!-- GETTING STARTED -->
 ## Getting Started
-----
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
 ### Prerequisites & Installation
-----
-To quickly install all packages required for algorithm run 
+
+To quickly install all packages required for algorithm run command
 ```
 pip install requirements.txt
 ```
 
-In case you are running on cloud there is perfect [tutorial](https://medium.com/analytics-vidhya/install-cuda-11-2-cudnn-8-1-0-and-python-3-9-on-rtx3090-for-deep-learning-fcf96c95f7a1) how to install every dependancy you can need training deep learning model, that includes Cuda, CudaNN, PyTorch. However if you have no access to cloud GPU instances, we strongly suggest to utilize [Google Colab](https://link-url-here.org).
+In case you are running on cloud there is perfect [tutorial](https://medium.com/analytics-vidhya/install-cuda-11-2-cudnn-8-1-0-and-python-3-9-on-rtx3090-for-deep-learning-fcf96c95f7a1) how to install every dependancy you can need training deep learning model, that includes `Cuda`, `CudaNN`, `PyTorch`. However if you have no access to cloud GPU instances, we strongly suggest to utilize [Google Colab](https://link-url-here.org).
+
+- [ ] apkeisti vietomis
 
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 ----
-Project can be used in two ways. In case you have the same type of dataset and task to work on, model is shared in the AI community [HuggingFace](https://huggingface.co/models) by name "VilniusIGEM2021/albert-base-aptamers". One command to rule them all
+Project can be reused in two ways. In case you have the same type of dataset and task to work on, model is shared in the AI community [HuggingFace](https://huggingface.co/models) under name "Vilnius-Lithuania-iGEM2021/Albumin". *One command to rule them all*
 
 ```
 model = AutoModel.from_pretrained('VilniusIGEM2021/albert-base-aptamers')
 ```
 
-and inference as with usual transformer-based model. Read more on everything covering tutorial can be found in [HuggingFace/Transformers](https://huggingface.co/transformers/). Otherwise, if task differs, for instance you are considering longer aptamer sequences or change task from classification to sequence generation, then you have to run the process described in `model` folder with changed initial `albert-case-v2` model to `VilniusIGEM2021/albert-base-aptamers`
+and inference as with usual transformer-based model. Read more on `model README`, to get familiar with the framework visit [HuggingFace/Transformers](https://huggingface.co/transformers/). Otherwise, if task differs, for instance you are considering longer aptamer sequences or change task from classification to sequence generation, then you have to run the process described in `model` folder with changed initial `albert-case-v2` model to `Vilnius-Lithunia-iGEM2021/Albumin`.
 
 _For more indepth ALBERT model description and explanation, please refer to the [ALBERT Documentation](https://github.com/saulius-lipkevicius/GA_Transformer/tree/main/model)_
 
 
 ## V2.0 Optimization
 
-  - Optimizing number of aptamers taken in every sequence by common derivate calculation:
-  - Optimizing with exporting to ONNX
-  - Otimizing by diminishing accuracy to INT8
-  - Change structure of comparing
-  - change algorithm flow
+  - [ ] Optimizing number of aptamers taken in every sequence by common derivate calculation:
+  - [ ] Optimizing with exporting to ONNX
+  - [ ] Otimizing by diminishing accuracy to INT8
+  - [ ] Change structure of comparing
+  - [ ] change algorithm flow
 
 
 <!-- CONTRIBUTING -->
 ## Contributing
 ----
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+Contributions are what makes the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/CuteAptamer`)
@@ -147,6 +143,7 @@ Contributions are what make the open source community such an amazing place to b
 Any contribution to the AI community HuggingFacce community is super valuable, find more information in [HuggingFace/Contributing](https://huggingface.co/transformers/contributing.html)
 
 
+- [ ] pasidaryti kaip sarasa ir palikti nespetus igyvendinti
 
 ###  Suggestion for future improvements
 
