@@ -1,0 +1,100 @@
+####
+https://www.analyticsvidhya.com/blog/2017/06/transfer-learning-the-art-of-fine-tuning-a-pre-trained-model/
+
+Neural networks are a different breed of models compared to the supervised machine learning algorithms. Why do I say so? There are multiple reasons for that, but the most prominent is the cost of running algorithms on the hardware.
+
+On the other hand, access to GPUs is not that cheap.
+
+Now, that may change in future. But for now, it means that we have to be smarter about the way we use our resources in solving Deep Learning problems. Especially so, when we try to solve complex real life problems on areas like image and voice recognition.
+
+Thankfully, there is something called “Transfer Learning” which enables us to use pre-trained models from other people by making small changes.
+
+[transfer learning image su smegenimis :)]
+
+A neural network is trained on a data. This network gains knowledge from this data, which is compiled as “weights” of the network. These weights can be extracted and then transferred to any other neural network. Instead of training the other neural network from scratch, we “transfer” the learned features.
+
+Tim Urban from one of his recent articles on waitbutwhy.com
+Tim explains that before language was invented, every generation of humans had to re-invent the knowledge for themselves and this is how knowledge growth was happening from one generation to other:
+
+Simply put, a pre-trained model is a model created by some one else to solve a similar problem. Instead of building a model from scratch to solve a similar problem, you use the model trained on other problem as a starting point.
+
+A pre-trained model may not be 100% accurate in your application, but it saves huge efforts required to re-invent the wheel
+which can take days to train on super expensive GPUs/TPUs
+
+What is our objective when we train a neural network? We wish to identify the correct weights for the network by multiple forward and backward iterations. By using pre-trained models which have been previously trained on large datasets, we can directly use the weights and architecture obtained and apply the learning on our problem statement. This is known as transfer learning. We “transfer the learning” of the pre-trained model to our specific problem statement.
+
+You should be very careful while choosing what pre-trained model you should use in your case. If the problem statement we have at hand is very different from the one on which the pre-trained model was trained – the prediction we would get would be very inaccurate
+
+We are lucky that many pre-trained architectures are directly available for us in the Keras library.
+
+We make modifications in the pre-existing model by fine-tuning the model. Since we assume that the pre-trained network has been trained quite well, we would not want to modify the weights too soon and too much. While modifying we generally use a learning rate smaller than the one used for initially training the model.
+
+This task is part of the semantic textual similarity problem. You have two pair of sentences and you want to model the textual interaction between them.
+
+original bert and 87.5 as accuracy. which quite close
+
+Quick training with limited computational resources (mixed-precision, gradient accumulation, ...)
+
+Multi-GPU execution
+
+Threshold choice for the classification decision (not necessarily 0.5)
+
+Freeze BERT layers and only update the classification layer weights or update all the weights
+Reproducible results with seed settings
+
+Tune the hyperparameters : batch size, gradient accumulation parameter (iters_to_accumulate), number of epochs, learning rate
+
+Distinct random seeds for models trained on GLUE datasets including MRPC can have a significant impact on results : for more details, you can read the paper Fine-Tuning Pretrained Language Models: Weight Initializations, Data Orders, and Early Stopping by Dodge et al. (https://arxiv.org/abs/2002.06305)
+
+Experiment feeding to the classification layer the last layer hidden states' average of all input tokens or other operations with multiple encoder layers instead of the pooler output
+
+Ways to Fine tune the model: Feature extraction, Use the Architecture of the pre-trained model, Train some layers while freeze others 
+from the choice depends how much data you need: link https://www.analyticsvidhya.com/blog/2017/06/transfer-learning-the-art-of-fine-tuning-a-pre-trained-model/
+
+There are various architectures people have tried on different types of data sets and I strongly encourage you to go through these architectures and apply them on your own problem statements
+
+ADAMW optimizacija:
+an optimizer with weight decay fixed that can be used to fine-tuned models
+Adam (Kingma & Ba, 2015) [42] is one of the most popular and widely used optimization algorithms and often the go-to optimizer for NLP researchers.
+It is often thought that Adam clearly outperforms vanilla stochastic gradient descent (SGD). However, while it converges much faster than SGD, it has been observed that SGD with learning rate annealing slightly outperforms Adam (Wu et al., 2016)
+
+Rather than pre-defining or using off-the-shelf hyperparameters, simply tuning the hyperparameters of our model can yield significant improvements over baselines.
+
+https://towardsdatascience.com/7-tips-to-choose-the-best-optimizer-47bb9c1219e 
+This division is exclusively based on an operational aspect which forces you to manually tune the learning rate in the case of Gradient Descent algorithms while it is automatically adapted in adaptive algorithms
+
+Adam is the best among the adaptive optimizers in most of the cases.
+Adam is the best choice in general. Anyway, many recent papers state that SGD can bring to better results if combined with a good learning rate annealing schedule which aims to manage its value during the training.
+
+My suggestion is to first try Adam in any case, because it is more likely to return good results without an advanced fine tuning.
+Then, if Adam achieves good results, it could be a good idea to switch on SGD to see what happens.
+
+
+https://medium.com/huggingface/training-larger-batches-practical-tips-on-1-gpu-multi-gpu-distributed-setups-ec88c3e51255
+guide for the best practices
+
+How you can train a model on a single or multi GPU server with batches larger than the GPUs memory or when even a single training sample won’t fit (!),
+
+The simplest way to train a model using several machines in a distributed setup
+
+
+
+Random
+You start training by initializing the weights randomly. As soon as you start training, the weights are changed in order to perform the task with less mistakes (i.e. optimization). Once you're satisfied with the training results you save the weights of your network somewhere.
+
+Instead of repeating what you did for the first network and start from training with randomly initialized weights, you can use the weights you saved from the previous network as the initial weight values for your new experiment.
+
+The idea behind pre-training is that random initialization
+
+Using a pre-trained network generally makes sense if both tasks or both datasets have something in common.
+
+The bigger the gap, the less effective pre-training will be
+
+
+
+
+####
+https://medium.com/@ailabs/transformers-fine-tuning-the-fine-tuned-model-526fe622992b
+
+In these experiments, we show that fine-tuning the already fine-tuned model for specific tasks can lead to significant gain, even if the original pre-trained model is huge. 
+

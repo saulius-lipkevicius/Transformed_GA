@@ -2,31 +2,27 @@
 <!--
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
+
+
 [![Stargazers][stars-shield]][stars-url]
+[![Forks][forks-shield]][forks-url]
+[![Contributors][contributors-shield]][contributors-url]
 [![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
+[![License][license-shield]][license-url]
 
-
-
-<!-- PROJECT LOGO -->
-<br />
 <p align="center">
-    <img src="images/logo.png" alt="Logo" width="160" height="160">
-  </a>
+  <img src="images/logo.png" alt="Logo" width="160" height="160">
 
   <h3 align="center">Transformers Enhanced Aptamer Design Software </h3>
 
   <p align="center">
     An jumpstart to fit aptamers!
     <br />
-    <a href="https://igem2021.vilnius.com/"><strong>Explore Wiki »</strong></a>
-    <br />
+    <a href="https://igem2021.vilnius.com/"><strong>Explore Our Wiki »</strong></a>
     <br />
     <a href="https://github.com/">Create Issue</a>
-
   </p>
+  
 </p>
 
 
@@ -58,25 +54,35 @@
 
 <!-- ABOUT THE PROJECT -->
 ## Motivation
-----
-Our team this year decided to create an aptamer-based detection method to diagnose amebiasis disease caused by Entamoeba histolytica. Nevertheless, SELEX (Systematic evolution of ligands by exponential enrichment) was chosen as the main approach used to find aptamers for the protein target indicating the presence of E. histolytica. Finding a suitable aptamer by the well-established SELEX method requires the establishment of appropriate protocols, and might be a laborious and costly procedure. Keeping these reasons in mind, we started to look for in silico approaches for aptamer generation. After studying existing literature resources we found methods like M.A.W.S. (Making aptamers without SELEX), which was implemented by Heidelberg iGEM 2015 team. Based on this approach, we released an updated version that is described in the Software page. We decided to take a step further and apply a novel transformer-based neural network model  combined with a genetic algorithm to make aptamer generation in silico a more resource efficient process that has the higher potential to output an affine aptamer sequence. The key part of the model is that it has a property of transfer learning that lets anyone fine-tune the model almost instantly for modified tasks.
 
-
+This transformer-based neural network software is the ELBALite extension that speedup kinetic aptamer evaluation by 20 times and enables quick iterative inference on sequences. In consequence, genetic algorithm (GA) can be introduced to help out TEA to generate TOP aptamers for target protein also worth mentioning, models key property of transfer learning can be employed to fine-tune (re-train) it for any target protein of interest without need of expensive GPUs. To add up, many transformer-based models could fit this task, however Albert model was chosen because of its state of the Art performance with fewer parameters (11M) than threshold BERT model (110M), which takes ~10 times less time to train, fine-tune or inference, saving days of expensive GPU runtime. Working with massive datasets like our time is the crucial reasoning. 
 
 ### Model Dataflow
------
-Initially N random aptamer sequences are generated employing ELBAScore software, following it up, data must be specifically preprocessed to contain a pair of aptamers with a binary label that determines if the second sequence is more fit (1) or not (0). Paired sequences dataset is obtained by comparing every aptamer in-between by fitness score which is computed with the former software, later number of classification classes labels are balanced by flipping aptamers places for model to learn both classes equally. Many transformer-based models could fit this task, however Albert model was chosen because of its state of the Art performance with fewer parameters than threshold BERT model, which takes 4-5 times less time to train, saving days of expensive GPU runtime. Working with huge datasets like our time is the main reasoning for choosing Albert. Another significant part of the model is the genetic algorithm (GA) that produces new sequences at every iteration by well-known breeding, mutation steps, sequences are quite similar to last iteration top aptamers (is kuriu tikimes panasiu savybiu tik su geresniu fitness?) also GAs probabilistic model helped to determine convergence, how many iterations process needs, of the final aptamer list which consists of N aptamers to be investigated further. Lastly, final iteration sequences are analysed and compared by ELBAScore furthermore the best of it, 10 % of total, will be reevaluated in the lab.
 
+Initially N random aptamer sequences are generated employing ELBAScore, following it up, data must be specifically preprocessed to contain a pair of aptamers with a binary label that determines if the first sequence is more fit (1) or not (0). 
+
+<p align="center">
+  <img src="images/dataframe.png" alt="Logo" width="" height="">
+</p>
+
+Paired sequences dataset is obtained by comparing every aptamer in-between by fitness score which is computed with the former software, later number of classification classes labels are balanced (if needed) by flipping Label together with exhanging first aptamer with the second in places for model to master both classes equally good. 
+
+Next, paired aptamers are put to the GA that produces new sequences from the the most fit by by well-known breeding, mutation steps, shortly speaking, GA conditions new breed to have properties of the "best". New list of aptamers are evaluated by TEA, 10 % of the best stays and we iteratively repeat the process until it converges and we are satisfied with probabilities of model to have at least few super fit sequences to target protein of interest. Final aptamers can be send to wet lab to confirm its superiority after the last ELBALite run on it.
 
 
 ## Results
 -----
+
 Two separate models were created for protein targets Albumin and EhPPDK. Here transfer learning helped out, we had to train a model only on Albumin dataset for 2.5 days on 1 GPU and later on fine-tune the same Albert model with EhPPDK protein target dataset to save time, it took ~3 hours, because the model just needs to relearn positional embedding to inference partially different data. Initial model itself was trained on 1500 different aptamer sequences data from ELBAScore which formed 1,124,250 pairs with binary labels, 60% of it was used for training matter, 20 % for validation, and the rest for testing. To inference a new population of aptamers Albert takes approximately 5 minutes. [ikelti image of losses from training] + [metrikos] + [top aptameru iverciai su ELBALite, kokia dalis nukeliavo i labe] + [gal dar kazkokius iteracinius/tarpinius duomenis] + [pabrezti kaip efektino] + [distribucijos issemimas]
 
+
+![a](images/Albumin Base Confusion Matrix.png)  |  ![a](images/Albumin Base Confusion Matrix.png)
+
+<img src="images/Albumin ROC Curves.png" width="33%" />
 <p align="middle">
-  <img src="images/Albumin ROC Curves.png" width="100" />
-  <img src="images/Albumin Base Confusion Matrix.png" width="100" /> 
-  <img src="images/Albumin Large Confusion Matrix.png" width="100" />
+  
+  <img src="images/Albumin Base Confusion Matrix.png" width="30%" /> 
+  <img src="images/Albumin Large Confusion Matrix.png" width="30%" />
 </p>
 
 
