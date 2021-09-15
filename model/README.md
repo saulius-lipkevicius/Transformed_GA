@@ -73,6 +73,14 @@ In this project, we will be using BERT modification a Lite BERT (alBERT) that in
 - [ ] many pre-trained models are available
 - [ ] We make modifications in the pre-existing model by fine-tuning the model. Since we assume that the pre-trained network has been trained quite well, we would not want to modify the weights too soon and too much. While modifying we generally use a learning rate smaller than the one used for initially training the model
 - [ ] Albert-base model for sequence classifcation mostly has ~82-87% of accuracy which is quite similar for our dataset
+- [ ] Ways to Fine tune the model: Feature extraction, Use the Architecture of the pre-trained model, Train some layers while freeze others more info onhttps://www.analyticsvidhya.com/blog/2017/06/transfer-learning-the-art-of-fine-tuning-a-pre-trained-model/
+- [ ] Rather than pre-defining or using off-the-shelf hyperparameters, simply tuning the hyperparameters of our model can yield significant improvements over baselines.
+- [ ] https://towardsdatascience.com/7-tips-to-choose-the-best-optimizer-47bb9c1219e 
+This division is exclusively based on an operational aspect which forces you to manually tune the learning rate in the case of Gradient Descent algorithms while it is automatically adapted in adaptive algorithms
+Adam is the best among the adaptive optimizers in most of the cases.
+Adam is the best choice in general. Anyway, many recent papers state that SGD can bring to better results if combined with a good learning rate annealing schedule which aims to manage its value during the training.
+My suggestion is to first try Adam in any case, because it is more likely to return good results without an advanced fine tuning.
+Then, if Adam achieves good results, it could be a good idea to switch on SGD to see what happens.
 
 
 ### Model advantages
@@ -186,6 +194,8 @@ Next, an *iterator* for our dataset using *torch DataLoauder* class is created, 
   Machine with GPU has multiple cores, this means that the next batch can already be loaded and ready to go by the time the main process is ready for another batch. This is where the *number_of_workers* comes and speeds up, batches are loaded by workers and queued up in memory.  Optimal number of workers is equal 1.[https://deeplizard.com/learn/video/kWVgvsejXsE]
 
 Check Appendix to check how other hyperparameters can be optimized.
+- [ ] Using a pre-trained network generally makes sense if both tasks or both datasets have something in common.
+
 
 <!-- USAGE EXAMPLES -->
 ## Usage
@@ -209,6 +219,9 @@ Transformers and transformers-like achitectures have taken over many sequence re
 
 First two requires fine-tuning and pretraining from scratch respectively, the last one was applied in our model, hence we will optimize inference time by exporting *alBERT* to *ONNX* or *Torchscript*. Let's investigate the most suitable technique because inference time is extremely important.
 
+- [ ] BY  https://timdettmers.com/2018/10/17/tpus-vs-gpus-for-transformers-bert/
+TPUs are about 32% to 54% faster for training BERT-like models.alternatyva T4 16gb x4 ~ 1k month
+
 ### Results
 `
 q_model = torch.quantization.quantize_dynamic(
@@ -218,6 +231,8 @@ q_model = torch.quantization.quantize_dynamic(
 prideti pareto-frontier of accuracy loss/speed-up ratio:
 towardsdtasciencespeedup-bert-inference-different approach
 `
+
+- [ ] The bigger the gap, the less effective pre-training will be
 
 ### Expermenting
 
@@ -247,6 +262,13 @@ ideja is https://towardsdatascience.com/an-empirical-approach-to-speedup-your-be
 Authors suggest to use *learning rate = x* (saltinis)
 Also, to optimize training time, we suggest to test *batch_size = y*, however it is related to learning rate linearly. (saltinis)
 
+- [ ] ADAMW optimizacija:
+an optimizer with weight decay fixed that can be used to fine-tuned models
+Adam (Kingma & Ba, 2015) [42] is one of the most popular and widely used optimization algorithms and often the go-to optimizer for NLP researchers.
+It is often thought that Adam clearly outperforms vanilla stochastic gradient descent (SGD). However, while it converges much faster than SGD, it has been observed that SGD with learning rate annealing slightly outperforms Adam (Wu et al., 2016)
+- [ ] How you can train a model on a single or multi GPU server with batches larger than the GPUs memory or when even a single training sample won’t fit (!),
+
+
 
 * If have more than 1 GPU:
   ```sh
@@ -259,6 +281,8 @@ Also, to optimize training time, we suggest to test *batch_size = y*, however it
 1. [HuggingFace](https://huggingface.co) :hugs:
 2. i paperius apie svorius learning rate ir etc 
 3. [PyTorch tutorials](https://pytorch.org/tutorials/) save&load methds, dataloaders, checkpoints and etc
+4.  read more about transfer-learning https://www.analyticsvidhya.com/blog/2017/06/transfer-learning-the-art-of-fine-tuning-a-pre-trained-model/
+
    
 
 

@@ -59,7 +59,14 @@ Transformers Enhanced Aptamers (*TEA*) software is extension of the ELBALite tha
 
 - [ ] Multi-GPU execution
 - [ ] Reproducible results with seed settings
-
+- [ ] https://medium.com/@ailabs/transformers-fine-tuning-the-fine-tuned-model-526fe622992b
+In these experiments, we show that fine-tuning the already fine-tuned model for specific tasks can lead to significant gain, even if the original pre-trained model is huge. 
+- [ ] Running time
+To pre-train model from scratch it takes more than a week with 2x`16 GB Tesla V100`, large model x3
+which can get very expensive. It can cost ~2.5k $ per month or TPU v2-8 ~ 3.2K $
+- [ ] BY  https://timdettmers.com/2018/10/17/tpus-vs-gpus-for-transformers-bert/
+TPUs are about 32% to 54% faster for training BERT-like models. alternatyva T4 16gb x4 ~ 1k month
+- [ ] Using a pre-trained network generally makes sense if both tasks or both datasets have something in common.
 
 ### Model Dataflow
 
