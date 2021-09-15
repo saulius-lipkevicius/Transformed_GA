@@ -55,7 +55,11 @@
 <!-- ABOUT THE PROJECT -->
 ## Motivation
 
-This transformer-based neural network software is the ELBALite extension that speedup kinetic aptamer evaluation by 20 times and enables quick iterative inference on sequences. In consequence, genetic algorithm (GA) can be introduced to help out TEA to generate TOP aptamers for target protein also worth mentioning, models key property of transfer learning can be employed to fine-tune (re-train) it for any target proteins of interest without need of expensive GPUs. To add up, many transformer-based models could fit this task, however Albert model was chosen because of its state of the Art performance with fewer parameters (11M) than threshold BERT model (110M), which takes ~10 times less time to train, fine-tune or inference, saving days of expensive GPU runtime. Working with massive datasets like our time is the crucial reasoning. 
+Transformers Enhanced Aptamers (*TEA*) software is extension of the ELBALite that speedups kinetic aptamer evaluation by 40 times and enables quick iterative inference on sequences. In consequence, genetic algorithm (GA) can be introduced to help out *TEA* to generate *TOP* aptamers for target protein, also worth mentioning, models key property of transfer learning can be employed to fine-tune (re-train) it for any target proteins of interest without need of expensive GPUs and is reachable for anyone. To add up, many transformer-based models could fit this task however we have to be smarter about the way we use our resources hence Albert model was chosen because of its state of the Art performance with fewer parameters (11M) than threshold BERT model (110M), which takes ~10 times less time to train, fine-tune or inference, saving days of expensive GPU runtime which can cost up to 3,000$ per month. Working with massive datasets like our time is the crucial reasoning. 
+
+- [ ] Multi-GPU execution
+- [ ] Reproducible results with seed settings
+
 
 ### Model Dataflow
 
@@ -90,7 +94,8 @@ Albert employed in our GA iterative process is capable of evaluating 800 aptamer
 - [ ] prideti konvergavimo salyga ir apie bayeso modeli garantavimui
 - [ ] prideti judancius grafikelius is 0-100 distribuciju su judejimu i desine ---> 82
 - [ ] itraukti tesktu santraukas
-
+- [ ] A pre-trained model may not be 100% accurate in your application, but it saves huge efforts required to re-invent the wheel
+which can take days to train on super expensive GPUs/TPUs
 <!-- GETTING STARTED -->
 ## Getting Started
 ### Prerequisites & Installation
@@ -126,6 +131,7 @@ _For more indepth ALBERT model description and explanation, please refer to the 
   - [ ] Otimizing by diminishing accuracy to INT8
   - [ ] Change structure of comparing
   - [ ] change algorithm flow
+  - [ ] prideti kodel renkames ADAMW optimizer
 
 
 <!-- CONTRIBUTING -->
@@ -150,7 +156,12 @@ Any contribution to the AI community HuggingFacce community is super valuable, f
   1. Model code can be rewriten to TensorFlow.
   2. Different transformer-based models can be tried out, for instance, RoBerta, GPT-2 and so on.
   3. To make model more precise 3 class model could be consider instead of 2 classes, the third could stand for unknown relationship between pair of aptamers.
-   
+  4. Freeze layers of Albert to maximize accuracy, there is a code snippet in the model fine-tuning code for expermenting.
+  5. Play with hyperparameters threshold, learning rate and etc
+  6. Freeze BERT layers and only update the classification layer weights or update all the weights. Reproducible results with seed settings.
+  7. Tune the hyperparameters : batch size, gradient accumulation parameter (iters_to_accumulate), number of epochs, learning rate.
+  Distinct random seeds for models
+  8. 
 
 
 <!-- LICENSE -->

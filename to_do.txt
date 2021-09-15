@@ -1,9 +1,6 @@
 ### To-do
- -[ ] Ka daryti su abejotinomis sekomis is modelio outputo? t.y. 0.4-0.6 intervalo
 - [ ] Prideti default vertes funkcijose
 - [ ] perrasyti GA kad butu labiau smooth ir greiciau, nes dabar daug pasikartojanciu procesui
 - [ ] Paieskoti ar crossoveriui skilimas buna visiskai random, ar tarkim dazniau vidury?
 - [ ] Pasalinti harcodintus parametrus
-- [ ] Parasyti koda TIKRAM Traininimui
-- [ ] Prie pasiulymu prideti freezinima
 - [ ] Kodel renkames ADAMW ir optimizacija
