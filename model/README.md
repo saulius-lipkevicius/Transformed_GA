@@ -65,7 +65,9 @@
 
 In this project, we will be using BERT modification a Lite BERT (alBERT) that incorporated parameter-reduction techniques to avoid memory limitations of available software, hence has multiple times less parameters to learn and trains 1.7x faster also archieves slightly worse performance. Multiple IGEM teams have tried to apply well-established deep learning methods like CNN, LSTM to predict some features of biological sequences, however those architectures have gradient flaws that especially reveal itself in long sequences. Lets consider why transformers have an edge over former models.
 
-- [ ] A neural network is trained on a data. This network gains knowledge from this data, which is compiled as “weights” of the network. These weights can be extracted and then transferred to any other neural network. Instead of training the other neural network from scratch, we “transfer” the learned features.
+
+- [ ] Using a pre-trained network generally makes sense if both tasks or both datasets have something in common.
+- [ ]  Instead of training the other neural network from scratch, we “transfer” the learned features.
 - [ ] Prideti apie traininimo ilguma ir neefektyvuma kainos atzvilgiu, plius prieinamuma-->the most prominent is the cost of running algorithms
 - [ ] Simply put, a pre-trained model is a model created by some one else to solve a similar problem. Instead of building a model from scratch to solve a similar problem, you use the model trained on other problem as a starting point.
 - [ ] What is our objective when we train a neural network? We wish to identify the correct weights for the network by multiple forward and backward iterations. By using pre-trained models which have been previously trained on large datasets, we can directly use the weights and architecture obtained and apply the learning on our problem statement. This is known as transfer learning. We “transfer the learning” of the pre-trained model to our specific problem statement.
@@ -95,7 +97,7 @@ Then, if Adam achieves good results, it could be a good idea to switch on SGD to
     - It was shown that simple fine-tuning, by adding one layer on the top of BERT, can archieve state-of-art results with minimal task-specific adjustments and it does not suffer from vanishing/exploding gradient (RNN ilness). As a consequence BERT can handle long sequences.
 
 * **Completely Exhaust GPU resources**
-    - RNN, LSTM were hardly parallelizable because of recurrent-like architecture, to avoid issue BERT employed the new [attention link] methodology that lets BERT to fully parallelize computations.
+    - RNN, LSTM were hardly parallelizable because of recurrent-like architecture, to avoid issue BERT employed the new [attention link] methodology that lets BERT to fully parallelize computations. *Albert code is written to support multiple GPUs
 
 ## Getting Started 
 ----
@@ -209,7 +211,17 @@ We have created a function to simplify usage of model:
 
 Please refer to the [Model usage helicopter overview](https://huggingface.co/transformers/v1.0.0/model_doc/overview.html).
 
-## Model optimization with ONNX
+### V2.0 Optimization
+
+  - [ ] Optimizing number of aptamers taken in every sequence by common derivate calculation:
+  - [ ] Optimizing with exporting to ONNX
+  - [ ] Otimizing by diminishing accuracy to INT8
+  - [ ] Change structure of comparing
+  - [ ] change algorithm flow
+  - [ ] prideti kodel renkames ADAMW optimizer
+
+
+### Model optimization with ONNX
 Transformers and transformers-like achitectures have taken over many sequence related field with de-facto state-of-art performance, however it comes with high computational cost which is a burden for inference, usage of model in applications. There are few possible ways to optimize and speed-up it withoutinvesting into expensive hardware:
 
   - **Model pruning** - Reduce the number of layers, hidden layers units or the dimension of the embeddings.
@@ -228,22 +240,16 @@ q_model = torch.quantization.quantize_dynamic(
     model, {torch.nn.Linear}, dtype=torch.qint8
 )
 
-prideti pareto-frontier of accuracy loss/speed-up ratio:
+- [ ] prideti pareto-frontier of accuracy loss/speed-up ratio:
 towardsdtasciencespeedup-bert-inference-different approach
 `
-
-- [ ] The bigger the gap, the less effective pre-training will be
 
 ### Expermenting
 
 `vanilla PyTorch* will be consider as a baseline `
 
-
-  
-  
-
-
-ideja is https://towardsdatascience.com/an-empirical-approach-to-speedup-your-bert-inference-with-onnx-torchscript-91da336b3a41
+- [ ] Suforminti palyginima ONNX ir precision
+  ideja is https://towardsdatascience.com/an-empirical-approach-to-speedup-your-bert-inference-with-onnx-torchscript-91da336b3a41
 
 
 
@@ -269,13 +275,6 @@ It is often thought that Adam clearly outperforms vanilla stochastic gradient de
 - [ ] How you can train a model on a single or multi GPU server with batches larger than the GPUs memory or when even a single training sample won’t fit (!),
 
 
-
-* If have more than 1 GPU:
-  ```sh
-  if torch.cuda.device_count() > 1:
-        print("We can use multiple GPUs, ", torch.cuda.device_count())
-        model = nn.DataParallel(model)
-  ```
 ## Acknowledgements
 ----
 1. [HuggingFace](https://huggingface.co) :hugs:
