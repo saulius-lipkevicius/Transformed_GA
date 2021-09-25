@@ -119,7 +119,7 @@ Model input must follow standard norms - **(Sequence1, Sequence2, Label)**. In c
 * Output format
 <p align="center">
     <img src="./../images/dataframe.png" alt="dataframe" width="360" height="160">
-</a>
+</a>s
 
 
 ### Dependencies
@@ -198,18 +198,6 @@ Next, an *iterator* for our dataset using *torch DataLoauder* class is created, 
 Check Appendix to check how other hyperparameters can be optimized.
 - [ ] Using a pre-trained network generally makes sense if both tasks or both datasets have something in common.
 
-
-<!-- USAGE EXAMPLES -->
-## Usage
-----
-We have created a function to simplify usage of model:
-* How to predict employing model
-  ```sh
-  test_prediction(net=model, device=device, dataloader=test_loader, with_labels=True, result_file=path_to_output_file)
-  ```
-**IKELTI I HUGGINGFACE platforma, jeigu tinka musu modelis**
-
-Please refer to the [Model usage helicopter overview](https://huggingface.co/transformers/v1.0.0/model_doc/overview.html).
 
 ### V2.0 Optimization
 

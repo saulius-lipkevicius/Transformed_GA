@@ -72,6 +72,13 @@ Paired sequences dataset is obtained by comparing every aptamer in-between by fi
 Next, paired aptamers are put to the GA that produces new sequences from the the most fit by by well-known breeding, mutation steps, shortly speaking, GA conditions new breed to have properties of the "best". New list of aptamers are evaluated by TEA, 10 % of the best stays and we iteratively repeat the process until it converges and we are satisfied with probabilities of model to have at least few super fit sequences to target protein of interest. Final aptamers can be send to wet lab to confirm its superiority after the last EFBALite run on it. *Every result can be reproduced using seed*.
 
 ##  Modeling 
+- [ ] how many clusters ? 
+- [ ] apie prorus paskaityt, galimi toeke : empirical, subjective, objective,non-informative, reference, jeffreys, 
+- [ ] prior skaiciavimo metodai: laplace approximation, BIC, variational approximations, expectatin propagation, MCMC, Exact sampling
+- [ ] clustering with gaussian mixtures???? patikrindi diagrama
+
+We employed probabilistic model to descrive data that one could observe from a system, which in this case is immense 15s length aptamer sequences. Model helps to express all forms of uncertainty and noise associated with our case, then using inverse probability inference to unknown quatities, adapt our model and make predctions and learn from a data. [Bayes rules helps to learning and predicting and it can be seen as a form of inference] [poor model will predict poorly, however there is no right priory- it should capture reasonalbe range of possibilities] [it is good to find prior with good frequentistic properties] [priors with frequestist properties can be more robust to mis-specifications of the prior. ] [limitations: subjective, hard to find prior, com[putationally demanding...;;;; advantages coherent straightforward modular often good performance]]
+
 
 ###  Bivariate EhPPDK-Albumin distribution analysis 
 
@@ -136,7 +143,7 @@ In case you are running on cloud there is perfect [tutorial](https://medium.com/
 Project can be reused in two ways. In case you have the same type of dataset and task to work on, model is shared in the AI community [HuggingFace](https://huggingface.co/models) under name "Vilnius-Lithuania-iGEM2021/Albumin". *One command to rule them all*
 
 ```
-model = AutoModel.from_pretrained('VilniusIGEM2021/albert-base-aptamers')
+model = AutoModel.from_pretrained('Vilnius-Lithuania-iGEM2021/Albumin')
 ```
 
 and inference as with usual transformer-based model. Read more on `model README`, to get familiar with the framework visit [HuggingFace/Transformers](https://huggingface.co/transformers/). Otherwise, if task differs, for instance you are considering longer aptamer sequences or change task from classification to sequence generation, then you have to run the process described in `model` folder with changed initial `albert-case-v2` model to `Vilnius-Lithunia-iGEM2021/Albumin`.
