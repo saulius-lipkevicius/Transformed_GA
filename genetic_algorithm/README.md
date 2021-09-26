@@ -12,8 +12,8 @@ from the population or any estimate of interest.
 
 TEA user is interested in learning about the habits of 15s length aptamers, in other words what proportion of aptamers get at least 51 affinity score from EFBALite. In this analysis we will think of whole population of aptamers where p represents estimate of proportion of mentioned sequences therefore bayesian inference will let us locate position of p even if it is not know at beginning at all. From Bayesian viewpoint person's belief about the variation or uncertainty of the location of p is presented by a probability distribution placed on this value of p. (any random sample or research can help to form your prior distribution) Also prior is denoted f(p). We wil be using contuious priors: 
 
-<p align="middle">
-<img src="images/posterior_Albumin.png" width="50%" />
+<p align="center">
+  <img src="./../images/posterior_Albumin.png" alt="Logo" width="" height="">
 </p>
 
 based on the priors above we have two possible beliefs that this paramater is normally distributed around 0.005 with small uncertainty of 0.001 hence it is mostly likely that parameter is in interval of 0.002 to 0.008. The second belief states that we have beta(2.25, 450) distribution p which is inbetween 0.0005 to 0.01 concentrating on values around 0.005 mostly
@@ -27,16 +27,11 @@ f(p|data) \propto f(p)L(p)
 which can be shown to be of the form 
 g(p|data) \propto p^{a+s-1}(1-p)^{b+f-1}, where s - number of "successes", f-"failures"
 
+<p align="center">
+  <img src="./../images/aptamers_Albumin.png" alt="Logo" width="" height="">
+</p>
+
 - [ ] quantiles from posterior
-- [ ] 
-
-
-
-
-
-
-
-
 - [ ] Nustatyti preliminaru skaiciu, min ir max, kuris yra tenkinantis 
 - [ ] Naudojant prior is histogramos, likelihood beta(a,b) isskaiciuoti posterior pasiskirstyma ------> bent du prior skirtingus palyginti validuma prior pasirinkimo
 - [ ] Apsvarstyti continuous varianta
