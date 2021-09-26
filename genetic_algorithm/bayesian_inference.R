@@ -1,17 +1,8 @@
----
-title: "R Notebook"
-output: html_notebook
----
-
-```{r}
 #  Set seed hence analysis is reconstructable
 set.seed(2021)
 library(tidyverse)
 library(LearnBayes)
-```
 
-
-```{r}
 #  Determine what measure of kinetic energy is considered sufficient
 #  to call an aptamer fit, in our case it is 51 for Albumin
 p_albumin = 51
@@ -30,10 +21,10 @@ df_ehppdk = as.vector(data[['eh_prop']])
 data_len = len(df)
 fit_albumin = sum(data$albumin_prop)
 fit_ehppdk = sum(data$ehppdk_prop)
-```
 
-Beta prior - binomial likelihood case for Albumin
-```{r}
+
+#  Beta prior - binomial likelihood case for Albumin
+
 #  We have a believe that 0.9 quantile is value p = .006 and
 #  quantile 0.5 (median) p = 0.03, using these values We can
 #  determine beta(a,b) hyperparameters a and b using beta.select
@@ -57,9 +48,7 @@ lines(p, dist3, lty=1 , lwd = 7, col="#054d54")
 legend("topright", legend=c("Prior", "Likelihood", "Posterior"),
        col=c("#1b8489", "#fccec0", "#054d54"), lty = 3:1, lwd = 3, cex=1.1)
 dev.off()
-```
 
-```{r}
 #  Inference from posterior distribution, determining a,b hyperparameters
 #  of posterior distribution
 ab = c(parameters[1] + fit_albumin, parameters[2] + data_len - fit_albumin)
@@ -84,6 +73,6 @@ mean(samp)
 
 #  To see in what interval ypred falls with probability of 85%
 discint(dt, 0.85)
-```
+
 
 
