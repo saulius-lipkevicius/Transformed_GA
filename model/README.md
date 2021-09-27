@@ -20,7 +20,7 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#about-bert">About BERT</a>
+      <a href="#about-albert">About Albert</a>
       <ul>
         <li><a href="#model-advantages">Model advantages</a></li>
       </ul>
@@ -60,33 +60,14 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About BERT
-----
-2018 was a breakthrough year for NLP, multiple new models like OpenAI's Open-GTP, Google's BERT allowed researchers to fine-tune existing models to produce state-of-art performance with minimal effort. Almost instatly LSTM was largely replaced by BERT (Bidirectional Encoder Representations from Transformers) was released in late 2018, initialy model was employed to Natural Language Processing (NLP), nowadays it finds new applications in variety of fields: machine translation, document generation, biological sequence analysis, video understanding and etc. 
 
-In this project, we will be using BERT modification a Lite BERT (alBERT) that incorporated parameter-reduction techniques to avoid memory limitations of available software, hence has multiple times less parameters to learn and trains 1.7x faster also archieves slightly worse performance. Multiple IGEM teams have tried to apply well-established deep learning methods like CNN, LSTM to predict some features of biological sequences, however those architectures have gradient flaws that especially reveal itself in long sequences. Lets consider why transformers have an edge over former models.
+2018 was a breakthrough year for NLP, multiple new models like OpenAI's Open-GTP, Google's BERT allowed researchers to fine-tune existing models to produce state-of-art performance with minimal effort. LSTM have became largely replaced by BERT (Bidirectional Encoder Representations from Transformers) which was released in late 2018, because of transformers property of transfer learning which scales even further with open-source new model deployed, for instance in [*HuggingFace*](https://huggingface.co). Generally, using a pre-trained network can be used if datasets have something in common, so instead of training the neural network from scracth, which can take up to week to train and big bill of expensive GPU, we "transfer" the learned features. Simply put, you use it as a starting point. To consider, Natural Language Processing (NLP) models for sequence classification archieve ~ 85% accuracy, therefore proteins "language" is quite the same as languages we speak so we expect decent results.
 
-
-- [ ] Using a pre-trained network generally makes sense if both tasks or both datasets have something in common.
-- [ ]  Instead of training the other neural network from scratch, we “transfer” the learned features.
-- [ ] Prideti apie traininimo ilguma ir neefektyvuma kainos atzvilgiu, plius prieinamuma-->the most prominent is the cost of running algorithms
-- [ ] Simply put, a pre-trained model is a model created by some one else to solve a similar problem. Instead of building a model from scratch to solve a similar problem, you use the model trained on other problem as a starting point.
-- [ ] What is our objective when we train a neural network? We wish to identify the correct weights for the network by multiple forward and backward iterations. By using pre-trained models which have been previously trained on large datasets, we can directly use the weights and architecture obtained and apply the learning on our problem statement. This is known as transfer learning. We “transfer the learning” of the pre-trained model to our specific problem statement.
-- [ ] If the problem statement we have at hand is very different from the one on which the pre-trained model was trained – the prediction we would get would be very inaccurate
-- [ ] many pre-trained models are available
-- [ ] We make modifications in the pre-existing model by fine-tuning the model. Since we assume that the pre-trained network has been trained quite well, we would not want to modify the weights too soon and too much. While modifying we generally use a learning rate smaller than the one used for initially training the model
-- [ ] Albert-base model for sequence classifcation mostly has ~82-87% of accuracy which is quite similar for our dataset
-- [ ] Ways to Fine tune the model: Feature extraction, Use the Architecture of the pre-trained model, Train some layers while freeze others more info onhttps://www.analyticsvidhya.com/blog/2017/06/transfer-learning-the-art-of-fine-tuning-a-pre-trained-model/
-- [ ] Rather than pre-defining or using off-the-shelf hyperparameters, simply tuning the hyperparameters of our model can yield significant improvements over baselines.
-- [ ] https://towardsdatascience.com/7-tips-to-choose-the-best-optimizer-47bb9c1219e 
-This division is exclusively based on an operational aspect which forces you to manually tune the learning rate in the case of Gradient Descent algorithms while it is automatically adapted in adaptive algorithms
-Adam is the best among the adaptive optimizers in most of the cases.
-Adam is the best choice in general. Anyway, many recent papers state that SGD can bring to better results if combined with a good learning rate annealing schedule which aims to manage its value during the training.
-My suggestion is to first try Adam in any case, because it is more likely to return good results without an advanced fine tuning.
-Then, if Adam achieves good results, it could be a good idea to switch on SGD to see what happens.
+In this project, we will be using BERT modification a Lite BERT (Albert) that incorporated parameter-reduction techniques to avoid memory limitations of available software, hence has multiple times less parameters to learn and can be trained, fine-tuned or used for inference from 2 to 3 times faster. However training albert is time consuming and resource expensive process hence we consider only fine-tuning existing models. Luckily, albert is able to archieves only slightly worse performance than BERT. Multiple IGEM teams have tried to apply well-established deep learning methods like CNN, LSTM to predict features of biological sequences, however those architectures have gradient flaws that especially reveal itself in long sequences. Lets consider why transformers have an edge over former models.
 
 
 ### Model advantages
----
+
 * **Quick Development**
   - Compared to LSTM, BERT has a property of transfer learning, that means you don't have to train model lower layers from scratch, just to apply *head-layer* that suits your task, to get state-of-art results. 
 
@@ -100,7 +81,7 @@ Then, if Adam achieves good results, it could be a good idea to switch on SGD to
     - RNN, LSTM were hardly parallelizable because of recurrent-like architecture, to avoid issue BERT employed the new [attention link] methodology that lets BERT to fully parallelize computations. *Albert code is written to support multiple GPUs
 
 ## Getting Started 
-----
+
 ### Colab Setup
 Google Colaboratory offers free GPUs which is perfect to train large neural networks like alBERTs. To add GPU select on menu:
 
@@ -183,7 +164,7 @@ In case, dataset consists of varying length aptamers we have to consider two *al
  However, keep *max_len* as small as possible since training time approximaly linearly dependent on this parameter. [linkas]
 
 
-## Training
+## Fine-tuning
 ----
 Following good practice, data was divided up in *train*, *test*, *validation* groups with *80%*, *10%*, *10%* percentage of data respectively, refer to *pairing.py*.
 Next, an *iterator* for our dataset using *torch DataLoauder* class is created, which helps to save memory compared to simply data looping which stucks whole loaded data to memory.
@@ -194,6 +175,8 @@ Next, an *iterator* for our dataset using *torch DataLoauder* class is created, 
   val_loader = DataLoader(val_set, batch_size=bs, num_workers=1)
   ```
   Machine with GPU has multiple cores, this means that the next batch can already be loaded and ready to go by the time the main process is ready for another batch. This is where the *number_of_workers* comes and speeds up, batches are loaded by workers and queued up in memory.  Optimal number of workers is equal 1.[https://deeplizard.com/learn/video/kWVgvsejXsE]
+
+More information can be found in [Ways to Fine tune the model: Feature extraction, Use the Architecture of the pre-trained model, Train some layers while freeze others more info onhttps://www.analyticsvidhya.com/blog/2017/06/transfer-learning-the-art-of-fine-tuning-a-pre-trained-model/]
 
 Check Appendix to check how other hyperparameters can be optimized.
 - [ ] Using a pre-trained network generally makes sense if both tasks or both datasets have something in common.
@@ -248,6 +231,15 @@ towardsdtasciencespeedup-bert-inference-different approach
 ## Appendix
 ### A1.Saving & Loading Fine-tuned Model
 ### A2.Optimizer & Learning Rate Scheduler
+additional info can be found here https://towardsdatascience.com/7-tips-to-choose-the-best-optimizer-47bb9c1219e 
+
+- [ ] https://towardsdatascience.com/7-tips-to-choose-the-best-optimizer-47bb9c1219e 
+This division is exclusively based on an operational aspect which forces you to manually tune the learning rate in the case of Gradient Descent algorithms while it is automatically adapted in adaptive algorithms
+Adam is the best among the adaptive optimizers in most of the cases.
+Adam is the best choice in general. Anyway, many recent papers state that SGD can bring to better results if combined with a good learning rate annealing schedule which aims to manage its value during the training.
+My suggestion is to first try Adam in any case, because it is more likely to return good results without an advanced fine tuning.
+Then, if Adam achieves good results, it could be a good idea to switch on SGD to see what happens.
+
 ### A3.Weight Decay
 1. Kaip pasirinkti optimezeri ir learning rate
 2. batch size su learning rate santykis

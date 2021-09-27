@@ -75,4 +75,55 @@ mean(samp)
 discint(dt, 0.85)
 
 
+##  Inferencing how many aptamers should stay in the TOP aptamer list to avoid
+#   removing FIT sequences
+
+#  Your model accuracy
+model_accuracy = 0.846
+
+#  Read data where every aptamer is compared with other and has label which is better
+data = read.csv('model.csv')
+
+#  Worksheet where you have every aptamer scored in an initial iteration, mostly it
+#  should be EFBA output
+pos_data = read.csv('position_analysis.csv')
+true_position = pos_data[,'Power1']
+
+#  Later this column is used to create dictionary
+sequences_list = as.vector(pos_data['Sequence'])
+
+#  Generating "possible" outcomes for prediction with NN error. We flip
+#  random compared aptamers pair label using binomial distribution generated
+#  0s and 1s list which later becomes new colun of Label
+for (t in 1:1000) {
+  
+  #  Create a new column for every possible prediction with shifting error
+  data[,i+3]  = rbinom(499500, size = 1, prob=c(model_accuracy))
+
+  #  this dictionary will contain a list of aptamers with their ranking in
+  #  the whole list 
+  sequences <- c()
+
+  for (i in 1:1000) {
+     sequences[sequences_list[i,1]] <- 0.000
+  }
+  
+  #  Calculating out which aptamer is superior using already compared aptamers data
+  #  for more information refer to github folder ./model/README.md
+  for (i in 1:dim(data)[1]) {
+    if (data[i,t+3] == 1) {
+      sequences[data[i,1]] <- as.numeric(sequences[data[i,1]]) + 0.001
+    } else {
+      sequences[data[i,2]] <- as.numeric(sequences[data[i,2]]) + 0.001
+    }
+    
+  }  
+  #  Connecting new scenario with the initial - true positioning of every aptamer
+  true_position = cbind(true_position, data.frame(sequences))
+  print(t) #  Follow the process since it takes ~5 hours to generate 1000 samples
+}
+
+
+#  Analysis of possible scenarios of aptamers in the list: how extreme can a change in
+#  aptamers position in the list could be; on average, how much position changes;
 
