@@ -150,7 +150,8 @@ Any contribution to the AI community HuggingFacce community is super valuable, f
 -  Fasten NN by diminishing parameters accuracy to INT8.
 -  Create a tokenizer that would learn to seperate aptamer sequence uniquely. [Link for a head-start](https://huggingface.co/quicktour/transformers).
 - If you accomplish better accuracy model, play around with GA parameters, since with accuracy we need less restrictions for GA.
-
+- Flow can be rewritten to C++ language to speed up wok with dataframes and intermediate calculations.
+- 
 <!-- LICENSE -->
 ## License
 Distributed under the MIT License. See `LICENSE` for more information.

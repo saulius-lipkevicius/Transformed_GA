@@ -1,6 +1,0 @@
-### To-do
-- [ ] Prideti default vertes funkcijose
-- [ ] perrasyti GA kad butu labiau smooth ir greiciau, nes dabar daug pasikartojanciu procesui
-- [ ] Paieskoti ar crossoveriui skilimas buna visiskai random, ar tarkim dazniau vidury?
-- [ ] Pasalinti harcodintus parametrus
-- [ ] Kodel renkames ADAMW ir optimizacija
