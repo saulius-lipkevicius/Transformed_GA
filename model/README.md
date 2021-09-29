@@ -47,12 +47,8 @@
     </li>
     <li><a href="#further-improvements">Further Improvements</a>
     </li>
-    <li><a href="#appendix">Appendix</a>
-    <ul>
-        <li><a href="#saving&loading-fine-tuned-model">Saving & Loading fine-tuned Model</a></li>
-        <li><a href="#optimizer-&-learning-rate-scheduler">Optimizer & Learning Rate Scheduler</a></li>
-        <li><a href="#weight-decay">Weight Decay</a></li>
-      </ul>
+    <li><a href="#additional_information">Additional information</a>
+
 
   </ol>
 </details>
@@ -205,42 +201,12 @@ Follow in-depth explanation how Pytorch model converting to ONNX works in [tutor
 - [ ] Suforminti palyginima ONNX ir precision
   ideja is https://towardsdatascience.com/an-empirical-approach-to-speedup-your-bert-inference-with-onnx-torchscript-91da336b3a41
 
-
-
-## Further improvements
-
-Algorithm flow with model is by far not perfect, hence we suggest to contribute to this model by suggested improvements
--  Train Albert from scratch on way bigger dataset.
--  Test out other BERT alternatives like Roberta.
--  Fasten NN by diminishing parameters accuracy to INT8
--  Create a tokenizer that would learn to seperate aptamer sequence uniquely. [Link for head-start](https://huggingface.co/quicktour/transformers).
-
    
-## Appendix
-### A1.Saving & Loading Fine-tuned Model
-### A2.Optimizer & Learning Rate Scheduler
-additional info can be found here https://towardsdatascience.com/7-tips-to-choose-the-best-optimizer-47bb9c1219e 
+## Additional information
+  - Optimizer & Learning Rate Scheduler [1](https://towardsdatascience.com/7-tips-to-choose-the-best-optimizer-47bb9c1219e), [2](https://towardsdatascience.com/7-tips-to-choose-the-best-optimizer-47bb9c1219e).
 
-- [ ] https://towardsdatascience.com/7-tips-to-choose-the-best-optimizer-47bb9c1219e 
-This division is exclusively based on an operational aspect which forces you to manually tune the learning rate in the case of Gradient Descent algorithms while it is automatically adapted in adaptive algorithms
-Adam is the best among the adaptive optimizers in most of the cases.
-Adam is the best choice in general. Anyway, many recent papers state that SGD can bring to better results if combined with a good learning rate annealing schedule which aims to manage its value during the training.
-My suggestion is to first try Adam in any case, because it is more likely to return good results without an advanced fine tuning.
-Then, if Adam achieves good results, it could be a good idea to switch on SGD to see what happens.
 
-### A3.Weight Decay
-1. Kaip pasirinkti optimezeri ir learning rate
-2. batch size su learning rate santykis
-3. kas yra svorio kritimas
-4.  Hyperparameters
-Authors suggest to use *learning rate = x* (saltinis)
-Also, to optimize training time, we suggest to test *batch_size = y*, however it is related to learning rate linearly. (saltinis)
-
-- [ ] ADAMW optimizacija:
-an optimizer with weight decay fixed that can be used to fine-tuned models
-Adam (Kingma & Ba, 2015) [42] is one of the most popular and widely used optimization algorithms and often the go-to optimizer for NLP researchers.
-It is often thought that Adam clearly outperforms vanilla stochastic gradient descent (SGD). However, while it converges much faster than SGD, it has been observed that SGD with learning rate annealing slightly outperforms Adam (Wu et al., 2016)
-- [ ] How you can train a model on a single or multi GPU server with batches larger than the GPUs memory or when even a single training sample won’t fit (!),
+  - Weight Decay [1](https://medium.com/analytics-vidhya/deep-learning-basics-weight-decay-3c68eb4344e9).
 
 
    

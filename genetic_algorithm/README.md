@@ -42,10 +42,8 @@ g(p|data) \propto p^{a+s-1}(1-p)^{b+f-1}, where s - number of "successes", f-"fa
 ###  Neural Network accuracy impact in Genetic Algorithm (probabilistic analysis of false negative case)
 
 
+<p align="center">
+  <img src="./../images/true_error_albumin.png" alt="Logo" width="" height="">
+</p>
 
-
-- [ ] Pateikti grafika accuracy ir ivercius
-- [ ] itraukti n ivercio pasirinkimo naudos analize
-
-### Solution of top aptamer parameter optimization - evading false negative
-
+- [ ] pakartoti procesa su kitais error rate, pvz 5-7, 10-12

@@ -2,6 +2,7 @@
 set.seed(2021)
 library(tidyverse)
 library(LearnBayes)
+library(data.table)
 
 #  Determine what measure of kinetic energy is considered sufficient
 #  to call an aptamer fit, in our case it is 51 for Albumin
@@ -118,6 +119,28 @@ for (t in 1:1000) {
     }
     
   }  
+
+  #  Create temp table for dictionary data in dataframe format
+  temp = data.frame(names(sequences), as.numeric(sequences))
+
+  #  Rename columns to follow up the structure
+  colnames(temp) <- c("Sequence", "Power")
+
+  #  Adding additional indexing to follow up true positioning
+  temp$index <- as.numeric(row.names(temp))
+
+  #  Order by current 'Power'
+  temp = temp[order(-temp$Power), c(1,2,3)]
+  
+  #  Create new position column
+  temp$position <- 1:nrow(temp)
+  
+  #  Reorder dataframe by the true index to concat dataframes easily
+  temp = temp[order(temp$index), c(1,2,3,4)]
+
+  #  Remove redundant columns, keep only Power and Position
+  temp = temp[,c(2,4)]
+
   #  Connecting new scenario with the initial - true positioning of every aptamer
   true_position = cbind(true_position, data.frame(sequences))
   print(t) #  Follow the process since it takes ~5 hours to generate 1000 samples
@@ -127,3 +150,27 @@ for (t in 1:1000) {
 #  Analysis of possible scenarios of aptamers in the list: how extreme can a change in
 #  aptamers position in the list could be; on average, how much position changes;
 
+#  Consider only top N aptamers, in this case N = 200
+cols = seq(4,204,by=2)
+
+#  Transpose data to easily follow specific aptamer positioning
+data_t = transpose(pos_data[,cols])
+
+#  Investigate fluctuations through quantiles of every aptamer positioning
+quantile1 = stack(lapply(data_t[,c(1:200)], quantile, prob = 0.1, names = FALSE))
+quantile2 = stack(lapply(data_t[,c(1:200)], quantile, prob = 0.9, names = FALSE))
+top_N = 1:200
+
+# Plot 90% confidence interval for aptamer position change
+png(filename="true_error_albumin.png")
+plot(y=quantile1[,1],x=top_N, type='l', col='#054d54', ylim=c(0,215), xlim=c(0,200),lwd=5, xlab="True Aptamer Position", ylab="Aptamer Position with Error")
+lines(y=quantile2[,1],x=top_N, col='#054d54', lwd=5)
+lines(y=top_N, x=top_N,col='#1b8489',lwd=5)
+dev.off()
+
+#  Find how many aptamers on average will be left out even if they are fit, always ~6-7
+sum(ttt[,c(1:200)]>200)/100
+sum(ttt[,c(1:100)]>100)/100
+
+
+#  The last chapter of code can be repeated multiple times for different model accuracy

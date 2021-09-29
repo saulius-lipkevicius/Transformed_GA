@@ -46,7 +46,6 @@
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
   </ol>
 </details>
 
@@ -72,26 +71,8 @@ Paired sequences dataset is obtained by comparing every aptamer in-between by fi
 Next, paired aptamers are put to the GA that produces new sequences from the the most fit by by well-known breeding, mutation steps, shortly speaking, GA conditions new breed to have properties of the "best". New list of aptamers are evaluated by TEA, 10 % of the best stays and we iteratively repeat the process until it converges and we are satisfied with probabilities of model to have at least few super fit sequences to target protein of interest. Final aptamers can be send to wet lab to confirm its superiority after the last EFBALite run on it. *Every result can be reproduced using seed*.
 
 ##  Modeling 
-- [ ] how many clusters ? 
-- [ ] apie prorus paskaityt, galimi toeke : empirical, subjective, objective,non-informative, reference, jeffreys, 
-- [ ] prior skaiciavimo metodai: laplace approximation, BIC, variational approximations, expectatin propagation, MCMC, Exact sampling
-- [ ] clustering with gaussian mixtures???? patikrindi diagrama
 
-We employed probabilistic model to descrive data that one could observe from a system, which in this case is immense 15s length aptamer sequences. Model helps to express all forms of uncertainty and noise associated with our case, then using inverse probability inference to unknown quatities, adapt our model and make predctions and learn from a data. [Bayes rules helps to learning and predicting and it can be seen as a form of inference] [poor model will predict poorly, however there is no right priory- it should capture reasonalbe range of possibilities] [it is good to find prior with good frequentistic properties] [priors with frequestist properties can be more robust to mis-specifications of the prior. ] [limitations: subjective, hard to find prior, com[putationally demanding...;;;; advantages coherent straightforward modular often good performance]]
-
-
-###  Bivariate EhPPDK-Albumin distribution analysis 
-
-- [ ] 3d image
-
-###  Convergence measurement
-
-###  Error proning
-
-###  Model efficiency
-
-- [ ] prideti judancius grafikelius is 0-100 distribuciju su judejimu i desine ---> 82
-
+- [ ]  Trumpas aprasas is GA readme su keleta paveiksleliu ir pagrindiniu isvadu
 ## Results
 
 Fine-tuning two models with various hyperparameter to try took up <12 hours which is enough for a model to learn positional embeddings difference between Natural Language and language of proteins. Dataset for the learing part consisted of 1500 different aptamer sequences from EFBAScore which were later on paired to form 433050 pairs with binary labels, 70% of it was used for training matter, 15 % for validation, and the rest for testing. 
@@ -107,23 +88,11 @@ Comparing the accuracy and other significant metrics of fine-tuned `albert-base-
 <img src="images/Albumin ROC Curves.png" width="50%" />
 </p>
 
-Albert employed in our GA iterative process is capable of evaluating 800 aptamers per iteration which takes from 7 to 8 minutes. [Also with increased accuracy we could increase iteration capabilities from 800 to 900 or even more, by [https://medium.com/@ailabs/transformers-fine-tuning-the-fine-tuned-model-526fe622992b] you could accomplish it by even fine-tuning fine-tuned model]
+Albert employed in our GA iterative process is capable of evaluating 800 aptamers per iteration which takes from 7 to 8 minutes.
 
 ###  Optimized version
 
-####  Model optimization results
-
-
-however it is possible to reduce flow runtime about 32% to 54%  with TPUs by[https://timdettmers.com/2018/10/17/tpus-vs-gpus-for-transformers-bert/]
-
-
-
- - [ ] Optimizing number of aptamers taken in every sequence by common derivate calculation:
-  - [ ] Optimizing with exporting to ONNX
-  - [ ] Otimizing by diminishing accuracy to INT8
-  - [ ] Change structure of comparing
-  - [ ] change algorithm flow
-  - [ ] prideti kodel renkames ADAMW optimizer
+- [ ] Prideti pagrindinius punktus is model README su efektyvumu ir kas padaryta
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -169,36 +138,27 @@ Any contribution to the AI community HuggingFacce community is super valuable, f
 
 ###  Suggestion for future improvements
 
-  1. Model code can be rewriten to TensorFlow.
-  2. Different transformer-based models can be tried out, for instance, RoBerta, GPT-2 and so on.
-  3. To make model more precise 3 class model could be consider instead of 2 classes, the third could stand for unknown relationship between pair of aptamers.
-  4. Freeze layers of Albert to maximize accuracy, there is a code snippet in the model fine-tuning code for expermenting.
-  5. Play with hyperparameters threshold, learning rate and etc
-  6. Freeze BERT layers and only update the classification layer weights or update all the weights. Reproducible results with seed settings.
-  7. Tune the hyperparameters : batch size, gradient accumulation parameter (iters_to_accumulate), number of epochs, learning rate.
-  Distinct random seeds for models
-  8. 
+- [ ] trumpa izanga apie galima progresa
 
-
+-  Train Albert from scratch on way bigger dataset.
+-  Test out other BERT alternatives like Roberta (this model specifically requires up to 10 times more data than BERT or Albert).
+- To make model more precise 3 class model could be consider instead of 2 classes, the third could stand for unknown relationship between pair of aptamers.
+- Freeze layers of Albert to maximize accuracy, there is a code snippet in the model fine-tuning code for expermenting.
+- Play with hyperparameters: prediction threshold, learning rate and optimizer, learning rate, gradient accumulation parameter (iters_to_accumulate) and so on.
+- Try out different *seeds* for the same model, sometimes random initial state can change results significantly.
+- Model code can be rewriten to TensorFlow.
+-  Fasten NN by diminishing parameters accuracy to INT8.
+-  Create a tokenizer that would learn to seperate aptamer sequence uniquely. [Link for a head-start](https://huggingface.co/quicktour/transformers).
+- If you accomplish better accuracy model, play around with GA parameters, since with accuracy we need less restrictions for GA.
 
 <!-- LICENSE -->
 ## License
-----
 Distributed under the MIT License. See `LICENSE` for more information.
-
 
 
 <!-- CONTACT -->
 ## Contact
-----
 Saulius Lipkevičius - sauliuslipkevicius@gmail.com
-
-
-<!-- ACKNOWLEDGEMENTS -->
-## Acknowledgements
-----
-
-* [IGEM Heidelberg 2015 team](http://2015.igem.org/Team:Heidelberg)
 
 
 
