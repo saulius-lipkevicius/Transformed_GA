@@ -161,11 +161,11 @@ In case, dataset consists of varying length aptamers we have to consider two *Al
 
 * The maximum lump length can't exceed 512 tokens.
 
- However, keep *max_len* as small as possible since training time approximaly linearly dependent on this parameter. [linkas]
+ However, keep *max_len* as small as possible since training time approximaly linearly dependent on this parameter.
 
 
 ## Fine-tuning
-----
+
 Following good practice, data was divided up in *train*, *test*, *validation* groups with *80%*, *10%*, *10%* percentage of data respectively, refer to `./functions/pairing.py` to follow algorithm.
 Next, an *iterator* for our dataset using *torch DataLoauder* class is created, which helps to save memory compared to simply data looping which stucks whole loaded data to memory.
 
@@ -196,12 +196,6 @@ On average model converted to ONNX framework is running approximally 3 times fas
 Follow in-depth explanation how Pytorch model converting to ONNX works in [tutorial](https://www.youtube.com/watch?v=7nutT3Aacyw&t=859s).
 
 
-### Expermenting
-
-- [ ] Suforminti palyginima ONNX ir precision
-  ideja is https://towardsdatascience.com/an-empirical-approach-to-speedup-your-bert-inference-with-onnx-torchscript-91da336b3a41
-
-   
 ## Additional information
   - Optimizer & Learning Rate Scheduler [1](https://towardsdatascience.com/7-tips-to-choose-the-best-optimizer-47bb9c1219e), [2](https://towardsdatascience.com/7-tips-to-choose-the-best-optimizer-47bb9c1219e).
 

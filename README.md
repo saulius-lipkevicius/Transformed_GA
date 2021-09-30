@@ -49,7 +49,7 @@
   </ol>
 </details>
 
-
+Suggestion for future improvements
 
 <!-- ABOUT THE PROJECT -->
 ## Motivation
@@ -58,7 +58,7 @@ Transformers Enhanced Aptamers (*TEA*) software is extension of the EFBALite tha
 
 
 
-### Model Dataflow
+## Model Dataflow
 
 Initially N random aptamer sequences are generated employing EFBAScore, following it up, data must be specifically preprocessed to contain a pair of aptamers with a binary label that determines if the first sequence is more fit (1) or not (0). 
 
@@ -120,6 +120,22 @@ and inference as with usual transformer-based model. Read more on `model README`
 _For more indepth ALBERT model description and explanation, please refer to the [ALBERT Documentation](https://github.com/saulius-lipkevicius/GA_Transformer/tree/main/model)_
 
 
+##  Suggestion for future improvements
+
+Albert model have been converted to ONNX framework to speed the inference process around 3 times, however there is a lot of space to make it better. Some suggestions from us:
+
+-  Train Albert from scratch on way bigger dataset.
+-  Test out other BERT alternatives like Roberta (this model specifically requires up to 10 times more data than BERT or Albert).
+- To make model more precise 3 class model could be consider instead of 2 classes, the third could stand for unknown relationship between pair of aptamers.
+- Freeze layers of Albert to maximize accuracy, there is a code snippet in the model fine-tuning code for expermenting.
+- Play with hyperparameters: prediction threshold, learning rate and optimizer, learning rate, gradient accumulation parameter (iters_to_accumulate) and so on.
+- Try out different *seeds* for the same model, sometimes random initial state can change results significantly.
+- Model code can be rewriten to TensorFlow.
+-  Fasten NN by diminishing parameters accuracy to INT8.
+-  Create a tokenizer that would learn to seperate aptamer sequence uniquely. [Link for a head-start](https://huggingface.co/quicktour/transformers).
+- If you accomplish better accuracy model, play around with GA parameters, since with accuracy we need less restrictions for GA.
+- Flow can be rewritten to C++ language to speed up wok with dataframes and intermediate calculations.
+
 <!-- CONTRIBUTING -->
 ## Contributing
 
@@ -135,23 +151,6 @@ Contributions are what makes the open source community such an amazing place to 
 Any contribution to the AI community HuggingFacce community is super valuable, find more information in [HuggingFace/Contributing](https://huggingface.co/transformers/contributing.html)
 
 
-
-###  Suggestion for future improvements
-
-- [ ] trumpa izanga apie galima progresa
-
--  Train Albert from scratch on way bigger dataset.
--  Test out other BERT alternatives like Roberta (this model specifically requires up to 10 times more data than BERT or Albert).
-- To make model more precise 3 class model could be consider instead of 2 classes, the third could stand for unknown relationship between pair of aptamers.
-- Freeze layers of Albert to maximize accuracy, there is a code snippet in the model fine-tuning code for expermenting.
-- Play with hyperparameters: prediction threshold, learning rate and optimizer, learning rate, gradient accumulation parameter (iters_to_accumulate) and so on.
-- Try out different *seeds* for the same model, sometimes random initial state can change results significantly.
-- Model code can be rewriten to TensorFlow.
--  Fasten NN by diminishing parameters accuracy to INT8.
--  Create a tokenizer that would learn to seperate aptamer sequence uniquely. [Link for a head-start](https://huggingface.co/quicktour/transformers).
-- If you accomplish better accuracy model, play around with GA parameters, since with accuracy we need less restrictions for GA.
-- Flow can be rewritten to C++ language to speed up wok with dataframes and intermediate calculations.
-- 
 <!-- LICENSE -->
 ## License
 Distributed under the MIT License. See `LICENSE` for more information.
