@@ -27,9 +27,17 @@ Our *prior belief* is that proportion *p* mean should be around value 0.003 and 
 Next, we have to include information from observed data which is scored aptamer sequences from *EFBA*, in file `.\datasets\ga_interim_data\Albumin\position_analysis.csv`. Proportion in our case can be described in simple way, if we generate aptamer with affinity score more than or equal to 51 it is *"success"* - *s* else it is *"failure"* - *f*. From here it is obvious that the likelihood function is given by binomial distribution
 
 <div style="text-align:center">    
+  <a href="https://www.codecogs.com/eqnedit.php?latex=L(p)&space;\propto&space;binom(1500,&space;p)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?L(p)&space;\propto&space;binom(1500,&space;p)" title="L(p) \propto binom(1500, p)" /></a>
+  <!-- more links here -->
+</div>
+
+<div style="text-align:center">    
   <a href="https://www.codecogs.com/eqnedit.php?latex=L(p)&space;\propto&space;p^{s}(1-p)^f" target="_blank"><img src="https://latex.codecogs.com/gif.latex?L(p)&space;\propto&space;p^{s}(1-p)^f" title="L(p) \propto p^{s}(1-p)^f" /></a>
   <!-- more links here -->
 </div>
+
+
+
 
 Then posterior density for proportion *p*, by *Bayes*' rule is obtained by multiplying the *prior* density with the *likelihood*, refer to the table below.
 
@@ -60,11 +68,29 @@ Mean of the *posterior* distribution is ~3.4 which indicates that with large num
   - On average, we will need 60 iterations to bring 200 long list of fit aptamers.
 
 
-##  Neural Network accuracy impact in Genetic Algorithm (probabilistic analysis of false negative case)
+##  Neural Network accuracy impact to Genetic Algorithm precision
 
+Next pivotal parameter is *Alberts* predicting accuracy, we will modify dataset `.\datasets\ga_interim_data\Albumin\model.csv` which consists every initial aptamer compared to each other. Firstly, if *aptamer1* is better than *aptamer2* this pair will have a *label* equal to 1 however there is `1-accuracy` chances to predict it wrongly hence we *flip* *labels* by randomly flipping a pair label with probability of `1-accuracy`. Then we are able to compute ranking of a list and compare *true* and *shifted* position of aptamer in a list, this lets us analyze the variability of aptamer position on average, how many fit aptamers can be *"lost"* in prediction. (*lost* - aptamer is fit yet it is out of top 200 predicted aptamers and will be deleted).
+
+We have simulated error accurancy with binomial distribution 100 times obtained 90 % confidence interval of possible aptamer position which is shown in **figure below**.
 
 <p align="center">
   <img src="./../images/true_error_albumin.png" alt="Logo" width="" height="">
 </p>
 
-- [ ] pakartoti procesa su kitais error rate, pvz 5-7, 10-12
+- It can be seen that with NN accuracy of 84.6 % aptamers position varies &#177; by 20 positions which creates a lot of uncertainty in prediction. 
+- Simulational analysis also helps to determine number truely fit aptamers that are thrown out of the top liss: on average 5.2 aptamers that belong to top 200 list are removed with model accuracy of 84.6 %. Considering that on average we get 3.4 fit aptamers every iteration and might remove 5.2 is alarming.
+
+Next step is to observe a threshold accuracy than would be sufficient to reach lesser variability and output more fit aptamers than it can remove. The same simulation was repeated with accuracy rates from interval of 88-95%. Results can be seen in **figures below**
+
+<p align="center">
+  <img src="./../images/true_error_albumin.png" alt="Logo" width="45%" height="50%">
+  <img src="./../images/true_error_albumin.png" alt="Logo" width="45%" height="50%">
+</p>
+
+##  Conclusion
+To have a *stable* aptamer generating process we have to accomplish model accuracy of at least XX %. However even model satisfying accuracy condition should be analyzed for a long term steadiness which includes multiple iteration stability and what is the maximum efficiency of this kind of model to generate at least mayority of fit aptamers in *top* list.
+
+
+
+
