@@ -63,10 +63,17 @@ Transformers Enhanced Aptamers (*TEA*) software is extension of the EFBALite tha
 Initially N random aptamer sequences are generated employing EFBAScore, following it up, data must be specifically preprocessed to contain a pair of aptamers with a binary label that determines if the first sequence is more fit (1) or not (0). 
 
 <p align="center">
-  <img src="images/dataframe.png" alt="Logo" width="" height="">
+  <img src="images/dataframe.png" alt="Logo" width="75%" height="70%">
 </p>
 
 Paired sequences dataset is obtained by comparing every aptamer in-between by fitness score which is computed with the former software, later number of classification classes labels are balanced (if needed) by flipping Label together with exhanging first aptamer with the second in places for model to master both classes equally good. 
+
+<p align="center">
+  <img src="images/dataframe_before_switch.png" alt="Logo" width="75%" height="70%">
+</p>
+<p align="center">
+  <img src="images/dataframe_after_switch.png" alt="Logo" width="75%" height="70%">
+</p>
 
 Next, paired aptamers are put to the GA that produces new sequences from the the most fit by by well-known breeding, mutation steps, shortly speaking, GA conditions new breed to have properties of the "best". New list of aptamers are evaluated by TEA, 10 % of the best stays and we iteratively repeat the process until it converges and we are satisfied with probabilities of model to have at least few super fit sequences to target protein of interest. Final aptamers can be send to wet lab to confirm its superiority after the last EFBALite run on it. *Every result can be reproduced using seed*.
 
@@ -135,7 +142,7 @@ Albert model have been converted to ONNX framework to speed the inference proces
 -  Create a tokenizer that would learn to seperate aptamer sequence uniquely. [Link for a head-start](https://huggingface.co/quicktour/transformers).
 - If you accomplish better accuracy model, play around with GA parameters, since with accuracy we need less restrictions for GA.
 - Flow can be rewritten to C++ language to speed up wok with dataframes and intermediate calculations.
-
+- Analyze models accuracy when we compare only high affinity aptamers, for instance, model might have lower accuracy when comparing quite similar affinite sequences.
 <!-- CONTRIBUTING -->
 ## Contributing
 
