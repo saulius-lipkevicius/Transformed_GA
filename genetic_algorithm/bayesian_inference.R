@@ -82,79 +82,98 @@ discint(dt, 0.85)
 #  Your model accuracy
 model_accuracy = 0.846
 
-#  Read data where every aptamer is compared with other and has label which is better
-data = read.csv('model.csv')
+run_inference_on_error <- function(error_rate) {\
+  #  Iteratively inform user of a process progress
+  print(paste('Case: prob=', error))
 
-#  Worksheet where you have every aptamer scored in an initial iteration, mostly it
-#  should be EFBA output
-pos_data = read.csv('position_analysis.csv')
-true_position = pos_data[,'Power1']
+  #  Consider only top N aptamers, in this case N = 200
+  cols = seq(4,204,by=2)
 
-#  Later this column is used to create dictionary
-sequences_list = as.vector(pos_data['Sequence'])
+  #  Read data where every aptamer is compared with other and has label which is better
+  data = read.csv('model.csv')
 
-#  Generating "possible" outcomes for prediction with NN error. We flip
-#  random compared aptamers pair label using binomial distribution generated
-#  0s and 1s list which later becomes new colun of Label
-for (t in 1:1000) {
-  
-  #  Create a new column for every possible prediction with shifting error
-  data[,i+3]  = rbinom(499500, size = 1, prob=c(model_accuracy))
+  #  Worksheet where you have every aptamer scored in an initial iteration, mostly it
+  #  should be EFBA output
+  pos_data = read.csv('position_analysis.csv')
+  true_position = pos_data[,'Power1']
 
-  #  this dictionary will contain a list of aptamers with their ranking in
-  #  the whole list 
-  sequences <- c()
+  #  Later this column is used to create dictionary
+  sequences_list = as.vector(pos_data['Sequence'])
 
-  for (i in 1:1000) {
-     sequences[sequences_list[i,1]] <- 0.000
-  }
-  
-  #  Calculating out which aptamer is superior using already compared aptamers data
-  #  for more information refer to github folder ./model/README.md
-  for (i in 1:dim(data)[1]) {
-    if (data[i,t+3] == 1) {
-      sequences[data[i,1]] <- as.numeric(sequences[data[i,1]]) + 0.001
-    } else {
-      sequences[data[i,2]] <- as.numeric(sequences[data[i,2]]) + 0.001
+  #  Generating "possible" outcomes for prediction with NN error. We flip
+  #  random compared aptamers pair label using binomial distribution generated
+  #  0s and 1s list which later becomes new colun of Label
+
+  for (t in 1:1000) {
+    
+    #  Create a new column for every possible prediction with shifting error
+    data[,i+3]  = rbinom(499500, size = 1, prob=c(1-error_rate/100))
+
+    #  this dictionary will contain a list of aptamers with their ranking in
+    #  the whole list 
+    sequences <- c()
+
+    for (i in 1:1000) {
+      sequences[sequences_list[i,1]] <- 0.000
     }
     
-  }  
+    #  Calculating out which aptamer is superior using already compared aptamers data
+    #  for more information refer to github folder ./model/README.md
+    for (i in 1:dim(data)[1]) {
+      if (data[i,t+3] == 1) {
+        sequences[data[i,1]] <- as.numeric(sequences[data[i,1]]) + 0.001
+      } else {
+        sequences[data[i,2]] <- as.numeric(sequences[data[i,2]]) + 0.001
+      }
+      
+    }  
 
-  #  Create temp table for dictionary data in dataframe format
-  temp = data.frame(names(sequences), as.numeric(sequences))
+    #  Create temp table for dictionary data in dataframe format
+    temp = data.frame(names(sequences), as.numeric(sequences))
 
-  #  Rename columns to follow up the structure
-  colnames(temp) <- c("Sequence", "Power")
+    #  Rename columns to follow up the structure
+    colnames(temp) <- c("Sequence", "Power")
 
-  #  Adding additional indexing to follow up true positioning
-  temp$index <- as.numeric(row.names(temp))
+    #  Adding additional indexing to follow up true positioning
+    temp$index <- as.numeric(row.names(temp))
 
-  #  Order by current 'Power'
-  temp = temp[order(-temp$Power), c(1,2,3)]
-  
-  #  Create new position column
-  temp$position <- 1:nrow(temp)
-  
-  #  Reorder dataframe by the true index to concat dataframes easily
-  temp = temp[order(temp$index), c(1,2,3,4)]
+    #  Order by current 'Power'
+    temp = temp[order(-temp$Power), c(1,2,3)]
+    
+    #  Create new position column
+    temp$position <- 1:nrow(temp)
+    
+    #  Reorder dataframe by the true index to concat dataframes easily
+    temp = temp[order(temp$index), c(1,2,3,4)]
 
-  #  Remove redundant columns, keep only Power and Position
-  temp = temp[,c(2,4)]
+    #  Remove redundant columns, keep only Power and Position
+    temp = temp[,c(2,4)]
 
-  #  Connecting new scenario with the initial - true positioning of every aptamer
-  true_position = cbind(true_position, data.frame(sequences))
-  print(t) #  Follow the process since it takes ~5 hours to generate 1000 samples
+    #  Creating a different name for every iteration
+    name <- paste("data_", error_rate, sep = "")
+
+    #  Connecting new scenario with the initial - true positioning of every aptamer
+    true_position = cbind(true_position, data.frame(sequences))
+
+    #  Transpose data for easier access later on for analysis
+    name = transpose(pos_data[,cols])
+
+    if (t%%20==0) {
+      print(t)
+    } #  Follow the process since it takes ~5 hours to generate 1000 samples
+  }
+  return None
+}
+
+#  Run the function on a model for error from 5% to 15%
+for (error in 5:15) {
+  run_inference_on_error(iter)
 }
 
 
 #  Analysis of possible scenarios of aptamers in the list: how extreme can a change in
 #  aptamers position in the list could be; on average, how much position changes;
 
-#  Consider only top N aptamers, in this case N = 200
-cols = seq(4,204,by=2)
-
-#  Transpose data to easily follow specific aptamer positioning
-data_t = transpose(pos_data[,cols])
 
 #  Investigate fluctuations through quantiles of every aptamer positioning
 quantile1 = stack(lapply(data_t[,c(1:200)], quantile, prob = 0.1, names = FALSE))
@@ -168,9 +187,34 @@ lines(y=quantile2[,1],x=top_N, col='#054d54', lwd=5)
 lines(y=top_N, x=top_N,col='#1b8489',lwd=5)
 dev.off()
 
-#  Find how many aptamers on average will be left out even if they are fit, always ~6-7
-sum(ttt[,c(1:200)]>200)/100
-sum(ttt[,c(1:100)]>100)/100
+
+###  The last chapter of code can be repeated multiple times for different model accuracy
 
 
-#  The last chapter of code can be repeated multiple times for different model accuracy
+left_aptamers = NULL
+aptamer_variability = NULL
+
+for (error in 5:15) {
+
+  name <- paste("data_", error, sep = "")
+  df =assign(as.character(name), get(name), envir= .GlobalEnv)
+
+  #  Calculating aptamers that were left behind top list
+  nm_left_aptamers = sum(df[,c(1:200)]>200)/100
+  left_aptamers = c(left_aptamers, nm_left_aptamers)
+
+  #  Calculating variability of aptamer on average
+  ###### pirmiausia atimti VAR(current position - true position)
+  aptamer_iter_var = var(df)
+  aptamer_variability = c(aptamer_variability, aptamer_iter_var)
+}
+
+#  Plot error rate vs lost aptamers
+png(filename="left_aptamers_albumin.png")
+plot(y = left_aptamers, x=seq(15,5, by = -1), type='l')
+dev.off()
+
+#  Plot error rate vs aptamer position variation
+png(filename="aptamer_variability_albumin.png")
+plot(y = aptamer_variability, x=seq(15,5, by = -1), type='l')
+dev.off()

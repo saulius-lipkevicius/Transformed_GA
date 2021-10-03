@@ -16,10 +16,10 @@ From *Bayesian* viewpoint person's belief about the variation or uncertainty of 
 
 Our *prior belief* is that proportion *p* mean should be around value 0.003 and 90th percentile to be 0.006 which gives us prior of 
 
-<div style="text-align:center">    
-  <a href="https://www.codecogs.com/eqnedit.php?latex=f(p)&space;\propto&space;beta(2.94,&space;870.18)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?f(p)&space;\propto&space;beta(2.94,&space;870.18)" title="f(p) \propto beta(2.94, 870.18)" /></a>
-  <!-- more links here -->
+<div style="text-align:center">   
+<img src="https://latex.codecogs.com/gif.latex? \text {f(p)  $\propto$ beta(2.94, 870.18)} " /> 
 </div>
+
 
 
  It is quite hard to determine those parameters for user himself, so it can be found by 90th percentile of the distributions and median which is 50th percentile. *R* package *LearnBayes* has in-build function to do so, follow script `bayesian_inference.R` for more information.
