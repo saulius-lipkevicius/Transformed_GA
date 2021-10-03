@@ -1,5 +1,3 @@
-
-
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
@@ -62,21 +60,20 @@ TODO
 - [ ] SUDELIOTI ITALICIR BOLD SRIFTUS
 - [ ] 
  
-2018 was a breakthrough year for NLP, multiple new models like OpenAI's Open-GTP, Google's BERT allowed researchers to fine-tune existing models to produce state-of-art performance with minimal effort. LSTM have became largely replaced by BERT (Bidirectional Encoder Representations from Transformers) which was released in late 2018, because of transformers property of transfer learning which scales even further with open-source new model deployed, for instance in [*HuggingFace*](https://huggingface.co). Generally, using a pre-trained network can be used if datasets have something in common, so instead of training the neural network from scracth, which can take up to week to train and big bill of expensive GPU, we "transfer" the learned features. Simply put, you use it as a starting point. To consider, Natural Language Processing (NLP) models for sequence classification archieve ~ 85% accuracy, therefore proteins "language" is quite the same as languages we speak so we expect decent results.
+2018 was a breakthrough year for NLP, multiple new models like OpenAI's Open-GTP, Google's BERT allowed researchers to fine-tune existing models to produce state-of-art performance with minimal effort. LSTM have became largely replaced by BERT (Bidirectional Encoder Representations from Transformers) which was released in late 2018, because of transformers property of transfer learning which scales even further when the open-source model was deployed, for instance in [*HuggingFace*](https://huggingface.co). Generally, a pre-trained network can be used if datasets have something in common, so instead of training the neural network from scracth, which can take up to week to train and a big bill of expensive GPU, we "transfer" the learned features. Simply put, you use it as a starting point. To consider, Natural Language Processing (NLP) models for sequence classification archieve ~ 85 percent accuracy. Aptamers are represented by nucleotide sequences - making up a nucleic acid "language", which in the context of models resemble the languages we speak so we expect decent results.
 
-In this project, we will be using BERT modification a Lite BERT (Albert) that incorporated parameter-reduction techniques to avoid memory limitations of available software, hence has multiple times less parameters to learn and can be trained, fine-tuned or used for inference from 2 to 3 times faster. However training Albert is time consuming and resource expensive process hence we consider only fine-tuning existing models. Luckily, Albert is able to archieves only slightly worse performance than BERT. Multiple IGEM teams have tried to apply well-established deep learning methods like CNN, LSTM to predict features of biological sequences, however those architectures have gradient flaws that especially reveal itself in long sequences. Lets consider why transformers have an edge over former models.
-
+In this project, we will be using BERT modification a Lite BERT (Albert) that incorporated parameter-reduction techniques to avoid memory limitations of available software, hence it has multiple times less parameters to learn and can be trained, fine-tuned or used for inference from 2 to 3 times faster. However, training Albert is time consuming and resource expensive process, hence we consider only fine-tuning existing models. Luckily, Albert is able to archieve only slightly worse performance than BERT. Multiple iGEM teams have tried to apply well-established deep learning methods like CNN, LSTM to predict features of biological sequences, however those architectures have gradient flaws that especially reveal itself in long sequences. Lets consider why transformers have an edge over former models.
 
 ### Model advantages
 
 * **Quick Development**
-  - Compared to LSTM, BERT has a property of transfer learning, that means you don't have to train model lower layers from scratch, just to apply *head-layer* that suits your task, to get state-of-art results. 
+  - Compared to LSTM, BERT has a property of transfer learning, that means you do not have to train model lower layers from scratch, just to apply a *head-layer* that suits your task, to get state-of-art results. 
 
 * **Less Data**
-  - Best performing deep learning models have millions of parameters to train, therefore model from scratch requires immense size datasets, a lot of time, and hands to create dataset.
+  - Best performing deep learning models have millions of parameters to train, therefore model from scratch require immense size datasets, a lot of time, and hands to create a dataset.
   
 * **Better Results**
-    - It was shown that simple fine-tuning, by adding one layer on the top of BERT, can archieve state-of-art results with minimal task-specific adjustments and it does not suffer from vanishing/exploding gradient (RNN ilness). As a consequence BERT can handle long sequences.
+    - It was shown that a simple fine-tuning, by adding one layer on the top of BERT, can archieve state-of-art results with minimal task-specific adjustments and it does not suffer from vanishing/exploding gradient (RNN illness). As a consequence BERT can handle long sequences.
 
 * **Completely Exhaust GPU resources**
     - RNN, LSTM were hardly parallelizable because of recurrent-like architecture, to avoid issue BERT employed the new [attention link] methodology that lets BERT to fully parallelize computations. *Albert code is written to support multiple GPUs
@@ -84,11 +81,11 @@ In this project, we will be using BERT modification a Lite BERT (Albert) that in
 ## Getting Started 
 
 ### Colab Setup
-Google Colaboratory offers free GPUs which is perfect to train large neural networks like Albert. To add GPU select on menu:
+Google Colaboratory offers free GPUs which are perfect to train large neural networks like Albert. To add GPU select on menu:
 
 `Edit -->  Notebook Settings --> Hardware accelerator --> (GPU)`
 
-This Framework has some time and resource drawbacks if training dataset is huge or *large* Albert architecture is chosen, hence we used Google Colaboratory Pro to speed up the process.
+This framework has some time and resource drawbacks if training dataset is huge or a *large* Albert architecture is chosen, hence we used Google Colaboratory Pro to speed up the process.
 
 
 ### Preprocessing and Data Locating
@@ -106,7 +103,7 @@ Model input must follow standard norms - **(Sequence1, Sequence2, Label)**. In c
 
 ### Dependencies
 
-To use a pre-trained transformer *HuggingFace* :hugs: provides API to quickly download and use those on a give dataset. API contains thousands of pretrained models to perform many tasks including all *BERT* modifications, however in our case we employed *Albert* for sequence classification. More information on *pytorch interface*(https://pypi.org/project/transformers)
+To use a pre-trained transformer *HuggingFace* :hugs: provides API to quickly download and use those on a given dataset. API contains thousands of pretrained models to perform many tasks including all *BERT* modifications, however in our case we employed *Albert* for sequence classification. More information on *pytorch interface*(https://pypi.org/project/transformers)
 
 * Install transformers
   ```sh
@@ -125,16 +122,16 @@ To use a pre-trained transformer *HuggingFace* :hugs: provides API to quickly do
 ----
 Required formating:
   - *Special* tokens at the beginning and ending of each sentence.
-  - Padding & truncation to a single constant length. (papildyti)
+  - Padding & truncation to a single constant length.
   - Differ *real* tokens from *padding* tokens with attention mask.
 
 ### Special Tokens
 
-`[CLS]` - For classification tasks, this token is appended in the beginning of first sentence. The significance of this token appears after all embeddings and produce classifier value - prediction.
+`[CLS]` - this token is appended in the beginning of first sentence for classification tasks. The significance of this token appears after all embeddings and produce classifier value - prediction.
 
-`[SEP]` - Appears in the ending of *every* sentence and is given to seperate sentences to help model determine something.
+`[SEP]` - this token appears in the ending of *every* sentence and is given to seperate sentences to help model determine something.
 
-`[PAD]` - Is used to balance every input sequence lenghts.
+`[PAD]` - this token is used to balance every input sequence lenghts.
 
 <p align="center">
     <img src="./../images/bert.png" alt="Logo" width="70%" height="70%">
@@ -159,15 +156,15 @@ In case, dataset consists of varying length aptamers we have to consider two *Al
 
 * Every aptamer pair must be padded or truncated to a same, fixed length.
 
-* The maximum lump length can't exceed 512 tokens.
+* The maximum lump length cannot exceed 512 tokens.
 
- However, keep *max_len* as small as possible since training time approximaly linearly dependent on this parameter.
+ However, keep *max_len* as small as possible, since training time approximaly linearly dependent on this parameter.
 
 
 ## Fine-tuning
 
-Following good practice, data was divided up in *train*, *test*, *validation* groups with *80%*, *10%*, *10%* percentage of data respectively, refer to `./functions/pairing.py` to follow algorithm.
-Next, an *iterator* for our dataset using *torch DataLoauder* class is created, which helps to save memory compared to simply data looping which stucks whole loaded data to memory.
+Following good practice, data was divided up in *train*, *test*, *validation* groups with *70%*, *15%*, *15%* percentage of data respectively, refer to `./functions/pairing.py` to follow the algorithm.
+Next, an *iterator* for our dataset using *torch DataLoader* class is created, which helps to save memory compared to simply data looping which stucks whole loaded data to memory.
 
 * train, validation datasets
   ```sh
@@ -180,18 +177,18 @@ Model can be fine-tuned differently in many ways: feature extraction, train only
 
 
 ## Model optimization
-Transformers and transformers-like achitectures have taken over many sequence related field with de-facto state-of-art performance, however it comes with high computational cost which is a burden for inference, usage of model in applications. There are few possible ways to optimize and speed-up it withoutinvesting into expensive hardware:
+Transformers and transformers-like achitectures have taken over many sequence-related fields with de-facto state-of-art performance, however it comes with high computational cost which is a burden for inference, usage of model in applications. There are few possible ways to optimize and speed-up it without investing into an expensive hardware:
 
   - **Model pruning** - Reduce the number of layers, hidden layers units or the dimension of the embeddings.
   - **Quantization** - Sacrife model weights precision, use lower 16/8-bit precision isntead of 32-bit.
   - **Exporting** - *PyTorch* model can be transfered to more appropiate format or inference engine, for instance *Torchscript*, *ONNX*
-  - **Better hardware** - by [research](https://timdettmers.com/2018/10/17/tpus-vs-gpus-for-transformers-bert/) fine TPUs, for instance, TPU v2.8 is about 32% to 54% faster that GPUs.
-  - **Batching** - predict bigger bataches of samples instead of individual samples.
+  - **Better hardware** - by [research](https://timdettmers.com/2018/10/17/tpus-vs-gpus-for-transformers-bert/) fine TPUs, for instance, TPU v2.8 is about 32 percent to 54 percent faster that GPUs.
+  - **Batching** - predict bigger batches of samples instead of individual samples.
 
-First two requires fine-tuning and pretraining from scratch respectively, the last one was applied in our model, hence we will optimize inference time by exporting *Albert* to *ONNX* or *Torchscript*. Let's investigate the most suitable technique because inference time is extremely important.
+First two require fine-tuning and pre-training from scratch respectively, exporting improvement was applied in our model - we exported *Albert* to *ONNX*. Let's investigate the most suitable technique because inference time is extremely important.
 
 ### ONNX framework
-On average model converted to ONNX framework is running approximally 3 times faster, this means that the NN is able to compare 1000 aptamers and find top 300 times faster than **EFBA**
+On average, model converted to ONNX framework is running approximately 3 times faster, this means that theoretically NN is able to compare 1000 aptamers and find the best aptamers 300 times faster than **EFBA**
 
 Follow in-depth explanation how Pytorch model converting to ONNX works in [tutorial](https://www.youtube.com/watch?v=7nutT3Aacyw&t=859s).
 
