@@ -99,9 +99,6 @@ Comparing the accuracy and other significant metrics of the fine-tuned `albert-b
 
 Albert is capable of evaluating 800 aptamers per iteration which takes from 7 to 8 minutes.
 
-###  Optimized version
-
-- [ ] Prideti pagrindinius punktus is model README su efektyvumu ir kas padaryta
 
 <!-- GETTING STARTED -->
 ## Getting Started
