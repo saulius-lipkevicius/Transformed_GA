@@ -92,7 +92,7 @@ Model input must follow standard norms - **(Sequence1, Sequence2, Label)**. In c
   ```
 * Output format
 <p align="center">
-    <img src="./../images/dataframe.png" alt="dataframe" width="" height="">
+    <img src="./../images/dataframe.png" alt="dataframe" width="60%" height="60%">
 </a>
 
 
@@ -129,7 +129,7 @@ Required formating:
 `[PAD]` - this token is used to balance every input sequence lenghts.
 
 <p align="center">
-    <img src="./../images/bert.png" alt="Logo" width="" height="">
+    <img src="./../images/bert.png" alt="Logo" width="60%" height="60%">
   </a>
 
 * How it looks in our case
