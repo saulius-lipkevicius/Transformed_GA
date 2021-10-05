@@ -83,12 +83,12 @@ We have simulated error accuracy with binomial distribution 100 times obtained 9
 Next step is to observe a threshold accuracy that would be sufficient enough to reach smaller variability and output more fit aptamers than it might remove. The same simulation was repeated with accuracy rates from interval of 88-95 percent. Results can be seen in **figures below**
 
 <p align="center">
-  <img src="./../images/true_error_albumin.png" alt="Logo" width="45%" height="50%">
-  <img src="./../images/true_error_albumin.png" alt="Logo" width="45%" height="50%">
+  <img src="./../images/aptamer_left_albumin.png" alt="Logo" width="45%" height="50%">
+  <img src="./../images/aptamer_variability_albumin.png" alt="Logo" width="45%" height="50%">
 </p>
 
 ##  Conclusion
-To have a *stable* aptamer generating process we have to accomplish model accuracy of at least 94 %. However, even model satisfying accuracy condition should be analyzed for a long term steadiness, which includes multiple iteration stability and what is the maximum efficiency of this kind of model to generate at least the majority of fit aptamers in the *top* list.
+To have a *stable* aptamer generating process we have to accomplish model with error rate of at most 6%, also this model has pretty good stability - standard deviation of 8 indicates that with probability of 95.4% our predicted position will be in *true_position* &pm; 16 places range. However even model satisfies accuracy condition (it deletes less possible fit aptamers than generates) should be analyzed for a long term steadiness which includes multiple iteration stability and what is the maximum efficiency of this kind of model to generate at least mayority of fit aptamers in *top* list.
 
 
 
