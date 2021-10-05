@@ -79,7 +79,9 @@ Next, paired aptamers are put to the GA that produces new sequences from the the
 
 ##  Modeling 
 
-- [ ]  Trumpas aprasas is GA readme su keleta paveiksleliu ir pagrindiniu isvadu
+Whole NN with GA have been modeled with Bayesian inference methods to determine can process converge and if so how long it would take; also stability of iterative algortihm have been taken in consideration to determine what exact accuracy level of Albert we have to train to ensure fitness of process. Read more in `./genetic_algorithm/`.
+
+
 ## Results
 
 Fine-tuning two models with various hyperparameters took less than 12 hours, which was enough for a model to learn the positional embeddings difference between natural Language and the language of proteins. Dataset for learning part consisted of 1500 different aptamer sequences from EFBAScore, which were later on paired to form 433050 pairs with binary labels, 70 percent of it was used for training, 15 percent for validation, and the rest for testing. 
