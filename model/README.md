@@ -92,7 +92,7 @@ Model input must follow standard norms - **(Sequence1, Sequence2, Label)**. In c
   ```
 * Output format
 <p align="center">
-    <img src="./../images/dataframe.png" alt="dataframe" width="360" height="160">
+    <img src="./../images/dataframe.png" alt="dataframe" width="" height="">
 </a>
 
 
