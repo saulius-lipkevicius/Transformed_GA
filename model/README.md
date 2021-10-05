@@ -54,11 +54,6 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About BERT
-TODO
-- [ ] JEI BUS LAIKO PAEKSPERMENTUOTI SU PRECISION IR SUTVARKYTI APPENDIX
-- [ ] PAKEISTI LENTELES SU GERU CSS FORMATU
-- [ ] SUDELIOTI ITALICIR BOLD SRIFTUS
-- [ ] 
  
 2018 was a breakthrough year for NLP, multiple new models like OpenAI's Open-GTP, Google's BERT allowed researchers to fine-tune existing models to produce state-of-art performance with minimal effort. LSTM have became largely replaced by BERT (Bidirectional Encoder Representations from Transformers) which was released in late 2018, because of transformers property of transfer learning which scales even further when the open-source model was deployed, for instance in [*HuggingFace*](https://huggingface.co). Generally, a pre-trained network can be used if datasets have something in common, so instead of training the neural network from scracth, which can take up to week to train and a big bill of expensive GPU, we "transfer" the learned features. Simply put, you use it as a starting point. To consider, Natural Language Processing (NLP) models for sequence classification archieve ~ 85 percent accuracy. Aptamers are represented by nucleotide sequences - making up a nucleic acid "language", which in the context of models resemble the languages we speak so we expect decent results.
 
