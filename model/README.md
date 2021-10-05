@@ -129,7 +129,7 @@ Required formating:
 `[PAD]` - this token is used to balance every input sequence lenghts.
 
 <p align="center">
-    <img src="./../images/bert.png" alt="Logo" width="70%" height="70%">
+    <img src="./../images/bert.png" alt="Logo" width="" height="">
   </a>
 
 * How it looks in our case
