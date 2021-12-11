@@ -8,8 +8,6 @@ Model:
   #  bert_model and hidden_state have to match, more info in
   #  https://huggingface.co/transformers/pretrained_models.html
   bert_model: albert-base-v2
-  #  elif bert_model == "albert-large-v2":  # 17M parameters
-  #          hidden_size = 1024
   hidden_size: 768
   with_labels: true
   batch_size: 64
@@ -25,10 +23,9 @@ Model:
   convert_to_onnx: true
   model_name: Albumin
 
-Random:
+Path:
   print_every: 1
   path_to_model: model/albert-base-v2_5e-05_0.1075.pt
   path_to_model_evaluation: ./datasets/model_validation/albert-base-v2_5e-05_0.1075.csv
   path_to_model_test: ./datasets/model_validation/pred-albert-base-v2_5e-05_0.1075.csv
-
 

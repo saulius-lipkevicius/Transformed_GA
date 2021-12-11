@@ -1,12 +1,10 @@
-
-
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
     <img src="./../images/logo.png" alt="Logo" width="160" height="160">
   </a>
 
-  <h3 align="center">Fine-Tuning Transformer alBERT </h3>
+  <h3 align="center">Fine-Tuning Transformer Albert </h3>
 
   <p align="center">
     <a href="https://github.com/"><strong>Explore the wiki »</strong></a>
@@ -20,7 +18,7 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#about-bert">About BERT</a>
+      <a href="#about-Albert">About Albert</a>
       <ul>
         <li><a href="#model-advantages">Model advantages</a></li>
       </ul>
@@ -30,6 +28,7 @@
       <ul>
         <li><a href="#colab-setup">Colab Setup</a></li>
         <li><a href="#preprocessing-and-data-locating">Preprocessing and Data Locating</a></li>
+        <li><a href="#dependencies">Dependencies</a></li>
       </ul>
     </li>
     <li><a href="#tokenization-&-input-formatting">Tokenization & input Formatting</a>
@@ -38,22 +37,17 @@
         <li><a href="#special-tokens">Special Tokens</a></li>
         <li><a href="#aptamer-length">Aptamer Length</a></li>
       </ul></li>
-      <li><a href="training">Training</a>
-      <ul>
-        <li><a href="#hyperparameters">Hyperparameters</a></li>
-      </ul>
+      <li><a href="fine-tuning">Fine-tuning</a>
     </li>
-    <li><a href="#usage">Usage</a>
+    <li><a href="#model-optimization">Model optimization</a><ul>
+        <li><a href="#onnx-framework">ONNX framework</a></li>
+      </ul>
     </li>
     <li><a href="#further-improvements">Further Improvements</a>
     </li>
-    <li><a href="#appendix">Appendix</a>
-    <ul>
-        <li><a href="#saving&loading-fine-tuned-model">Saving & Loading fine-tuned Model</a></li>
-        <li><a href="#optimizer-&-learning-rate-scheduler">Optimizer & Learning Rate Scheduler</a></li>
-        <li><a href="#weight-decay">Weight Decay</a></li>
-      </ul>
-    <li><a href="#acknowledgements">Acknowledgements</a>
+    <li><a href="#additional_information">Additional information</a>
+
+
   </ol>
 </details>
 
@@ -65,8 +59,9 @@
 
 In this project, we will be using a BERT modification - a Lite BERT (alBERT) that incorporated parameter-reduction techniques to avoid memory limitations of available software, hence it has multiple times less parameters to learn and trains 1.7x faster. Multiple iGEM teams have tried to apply well-established deep learning methods like CNN, LSTM to predict some features of biological sequences, however those architectures have gradient flaws that especially reveal itself in long sequences. 
 
+
 ### Model advantages
----
+
 * **Quick Development**
   - Compared to LSTM, BERT has a property of transfer learning, which means that you do not have to train the lower layers of model from scratch. You only need to apply the *head-layer* that suits your task, to get state-of-art results. 
 
@@ -79,32 +74,39 @@ In this project, we will be using a BERT modification - a Lite BERT (alBERT) tha
 * **Completely Exhaust GPU resources**
     - RNN, LSTM were hardly parallelizable because of recurrent-like architecture. To avoid this issue BERT employed the new [attention link] methodology that allows BERT to fully parallelize computations.
 
+
 ## Getting Started 
-----
+
 ### Colab Setup
+
 Google Colaboratory offers free GPUs which makes it a perfect platform to train large neural networks like alBERTs. To add GPU select on menu:
+
 
 `Edit -->  Notebook Settings --> Hardware accelerator --> (GPU)`
 
-This Framework has some time and resourses drawbacks if training dataset is huge or *large* alBERT architecture is chosen, hence we used Google Colaboratory Pro to speed up the process.
+This framework has some time and resource drawbacks if training dataset is huge or a *large* Albert architecture is chosen, hence we used Google Colaboratory Pro to speed up the process.
 
 
 ### Preprocessing and Data Locating
+
 Model input must follow standard norms - **(Sequence1, Sequence2, Label)**. In case you have a list of sequences from **M.A.W.S** you have to run it through *Python* script *pairing.py* to generate labelled dataframe for training.
 
-* Pairing aptamers to fit it into *alBERT*
+
+* Pairing aptamers to fit it into *Albert*
   ```sh
   python pairing.py -d aptamerListCSV
   ```
 * Output format
 <p align="center">
-    <img src="./../images/dataframe.png" alt="dataframe" width="360" height="160">
+    <img src="./../images/dataframe.png" alt="dataframe" width="60%" height="60%">
 </a>
 
 
 ### Dependencies
 
+
 To use a pre-trained transformer *HuggingFace* :hug: provides API to quickly download and use those on a given dataset. API contains thousands of pretrained models to perform many tasks including all *BERT* modifications, however in our case we employed *alBERT* for classification. More information on *pytorch interface*(https://pypi.org/project/transformers)
+
 
 * Install transformers
   ```sh
@@ -134,9 +136,9 @@ Required formating:
 
 `[PAD]` - a token that is used to balance every input sequence lenghts.
 
-ITERPTI ARCHITEKTUROS PNG kad butu suprantamiau
+
 <p align="center">
-    <img src="./../images/logos.png" alt="Logo" width="160" height="160">
+    <img src="./../images/bert.png" alt="Logo" width="60%" height="60%">
   </a>
 
 * How it looks in our case
@@ -154,7 +156,7 @@ ITERPTI ARCHITEKTUROS PNG kad butu suprantamiau
 
 ### Aptamer Length
 
-In case, dataset consists of varying length aptamers we have to consider two *alBERT* constraints:
+In case, dataset consists of varying length aptamers we have to consider two *Albert* constraints:
 
 * Every aptamer pair must be padded or truncated to the same, fixed length.
 
@@ -163,10 +165,11 @@ In case, dataset consists of varying length aptamers we have to consider two *al
  However, keep *max_len* as small as possible, since the training time is approximately linearly dependent on this parameter. [linkas]
 
 
-## Training
-----
-Following good practice, data was divided up in *train*, *test*, *validation* groups with *80%*, *10%*, *10%* percentage of data respectively, refer to *pairing.py*.
-Next, an *iterator* for our dataset using *torch DataLoauder* class is created, which helps to save memory compared to simply data looping which stucks whole loaded data to memory.
+
+## Fine-tuning
+
+Following good practice, data was divided up in *train*, *test*, *validation* groups with *70%*, *15%*, *15%* percentage of data respectively, refer to `./functions/pairing.py` to follow the algorithm.
+Next, an *iterator* for our dataset using *torch DataLoader* class is created, which helps to save memory compared to simply data looping which stucks whole loaded data to memory.
 
 * train, validation datasets
   ```sh
@@ -175,17 +178,9 @@ Next, an *iterator* for our dataset using *torch DataLoauder* class is created, 
   ```
   Machine with GPU has multiple cores, which means that the next batch can already be loaded and ready to go by the time the main process is completed and prepared for another batch. This is where the *number_of_workers* comes and speeds up: batches are loaded by workers and queued up in memory.  The optimal number of workers is equal 1.[https://deeplizard.com/learn/video/kWVgvsejXsE]
 
-Check Appendix to check how other hyperparameters can be optimized.
 
-<!-- USAGE EXAMPLES -->
-## Usage
-----
-We have created a function to simplify usage of model:
-* How to predict employing model
-  ```sh
-  test_prediction(net=model, device=device, dataloader=test_loader, with_labels=True, result_file=path_to_output_file)
-  ```
-**IKELTI I HUGGINGFACE platforma, jeigu tinka musu modelis**
+Model can be fine-tuned differently in many ways: feature extraction, train only part of layers and so on, in case, you want to read more on how fine-tuning works we strongly recommend reading the tutorial: [transfer-learning-the-art-of-fine-tuning-a-pre-trained-model](https://www.analyticsvidhya.com/blog/2017/06/transfer-learning-the-art-of-fine-tuning-a-pre-trained-model/).
+
 
 Please refer to the [Model usage helicopter overview](https://huggingface.co/transformers/v1.0.0/model_doc/overview.html).
 
@@ -205,50 +200,20 @@ q_model = torch.quantization.quantize_dynamic(
     model, {torch.nn.Linear}, dtype=torch.qint8
 )
 
-prideti pareto-frontier of accuracy loss/speed-up ratio:
-towardsdtasciencespeedup-bert-inference-different approach
-`
 
-### Expermenting
+First two require fine-tuning and pre-training from scratch respectively, exporting improvement was applied in our model - we exported *Albert* to *ONNX*. Let's investigate the most suitable technique because inference time is extremely important.
 
-`vanilla PyTorch* will be consider as a baseline `
+### ONNX framework
+On average, model converted to ONNX framework is running approximately 3 times faster, this means that theoretically NN is able to compare 1000 aptamers and find the best aptamers 300 times faster than **EFBA**
 
-
-  
-  
+Follow in-depth explanation how Pytorch model converting to ONNX works in [tutorial](https://www.youtube.com/watch?v=7nutT3Aacyw&t=859s).
 
 
-ideja is https://towardsdatascience.com/an-empirical-approach-to-speedup-your-bert-inference-with-onnx-torchscript-91da336b3a41
+## Additional information
+  - Optimizer & Learning Rate Scheduler [1](https://towardsdatascience.com/7-tips-to-choose-the-best-optimizer-47bb9c1219e), [2](https://towardsdatascience.com/7-tips-to-choose-the-best-optimizer-47bb9c1219e).
 
 
-
-## Further improvements
-  - It is possible to create a tokenizer that learns to distinguish the most important parts of sequence, especially if some nucleotide base combinations are of interest (for example, hairpins). The fit tokenizer might improve an efficiency of the transformer. [Quicktour for tokenizer creation](https://huggingface.co/quicktour/transformers).
-  - In case you want to push the model even further and employ *large BERT* modifications/alternatives, you should expand a dataset to help model train that massive number of parameters.
-   
-## Appendix
-### A1.Saving & Loading Fine-tuned Model
-### A2.Optimizer & Learning Rate Scheduler
-### A3.Weight Decay
-1. Kaip pasirinkti optimezeri ir learning rate
-2. batch size su learning rate santykis
-3. kas yra svorio kritimas
-4.  Hyperparameters
-Authors suggest to use *learning rate = x* (saltinis)
-Also, to optimize training time, we suggest to test *batch_size = y*, however it is related to learning rate linearly. (saltinis)
-
-
-* If have more than 1 GPU:
-  ```sh
-  if torch.cuda.device_count() > 1:
-        print("We can use multiple GPUs, ", torch.cuda.device_count())
-        model = nn.DataParallel(model)
-  ```
-## Acknowledgements
-----
-1. [HuggingFace](https://huggingface.co) :hugs:
-2. i paperius apie svorius learning rate ir etc 
-3. [PyTorch tutorials](https://pytorch.org/tutorials/) save&load methds, dataloaders, checkpoints and etc
+  - Weight Decay [1](https://medium.com/analytics-vidhya/deep-learning-basics-weight-decay-3c68eb4344e9).
    
 
 
